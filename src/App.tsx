@@ -18,7 +18,7 @@ export const App: React.FC = () => {
       <main
         id="main-content"
         tabIndex={-1}
-        className="relative z-10 mx-auto max-w-5xl px-4 pt-20 pb-12 outline-none sm:px-6 sm:pt-24 sm:pb-16"
+        className="relative z-10 mx-auto max-w-7xl px-3 pt-18 pb-12 outline-none sm:px-6 sm:pt-22 sm:pb-16"
       >
         <ResearchPaperApp />
       </main>
