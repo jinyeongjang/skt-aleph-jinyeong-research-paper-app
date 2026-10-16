@@ -1,0 +1,213 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
+  }
+
+  html.dark {
+    color-scheme: dark;
+    background-color: #0a0a0a;
+    color: #f5f5f5;
+  }
+}
+
+/* 테마 전환 부드러운 트랜지션 */
+html,
+body,
+header,
+main,
+section,
+div,
+button,
+a {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+}
+
+/* 애니메이션 비활성화 (Reduce Motion) */
+.reduce-motion *,
+html.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* ============================================================== */
+/* 글래스모피즘(Glassmorphism) 프리미엄 스타일 규격                 */
+/* ============================================================== */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+html.dark .glass-panel {
+  background-color: rgba(22, 22, 26, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-elevated {
+  background-color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 16px 40px -8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+html.dark .glass-panel-elevated {
+  background-color: rgba(18, 18, 22, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 40px -8px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-dock {
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 20px 48px -6px rgba(0, 0, 0, 0.14),
+    0 4px 16px -2px rgba(0, 0, 0, 0.06),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+html.dark .glass-dock {
+  background-color: rgba(14, 14, 18, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 24px 50px -6px rgba(0, 0, 0, 0.7),
+    0 4px 16px 0 rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.12);
+}
+
+.glass-pill {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 2px 8px 0 rgba(0, 0, 0, 0.03),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+html.dark .glass-pill {
+  background-color: rgba(30, 30, 36, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 2px 8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 다크 모드 종합 스타일 규격 */
+html.dark .bg-white {
+  background-color: #171717;
+}
+
+html.dark .bg-white\/70,
+html.dark .bg-white\/75,
+html.dark .bg-white\/80,
+html.dark .bg-white\/90 {
+  background-color: rgba(23, 23, 23, 0.88);
+}
+
+html.dark .bg-neutral-50,
+html.dark .bg-neutral-50\/40,
+html.dark .bg-neutral-50\/50,
+html.dark .bg-neutral-50\/60 {
+  background-color: #121212;
+}
+
+html.dark .bg-neutral-100 {
+  background-color: #242424;
+}
+
+html.dark .bg-neutral-200,
+html.dark .bg-neutral-200\/70 {
+  background-color: #2e2e2e;
+}
+
+html.dark .text-neutral-900 {
+  color: #fafafa;
+}
+
+html.dark .text-neutral-800 {
+  color: #f0f0f0;
+}
+
+html.dark .text-neutral-700 {
+  color: #d4d4d4;
+}
+
+html.dark .text-neutral-600 {
+  color: #a3a3a3;
+}
+
+html.dark .text-neutral-500 {
+  color: #888888;
+}
+
+html.dark .border-neutral-200,
+html.dark .border-neutral-200\/70,
+html.dark .border-neutral-200\/80,
+html.dark .border-neutral-200\/90,
+html.dark .border-neutral-100,
+html.dark .border-white\/80 {
+  border-color: #2a2a2a;
+}
+
+html.dark .hover\:bg-neutral-100:hover,
+html.dark .hover\:bg-neutral-50:hover {
+  background-color: #262626;
+}
+
+html.dark .hover\:border-neutral-300:hover {
+  border-color: #444444;
+}
+
+html.dark .selection\:bg-neutral-900::selection {
+  background-color: #f5f5f5;
+  color: #171717;
+}
+
+/* 다크 모드 메인 반전 강조 버튼 및 뱃지 */
+html.dark .bg-neutral-900 {
+  background-color: #f5f5f5;
+  color: #121212;
+}
+
+html.dark .bg-neutral-900:hover {
+  background-color: #e5e5e5;
+}
+
+html.dark .bg-neutral-900 .text-white,
+html.dark .bg-neutral-900 span,
+html.dark .bg-neutral-900 svg {
+  color: #121212;
+}

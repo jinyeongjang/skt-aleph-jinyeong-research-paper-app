@@ -1,0 +1,51 @@
+task_id,name,category,complexity,linear_success,linear_latency_ms,linear_bytes,star_success,star_latency_ms,star_bytes,mesh_success,mesh_latency_ms,mesh_bytes,tree_success,tree_latency_ms,tree_bytes
+1,Two-Sum with Edge Cases,Array,1,True,0.042,78,True,0.007,137,True,0.055,876,True,0.004,114
+2,Valid Palindrome with Alphanumeric Filter,String,2,False,0.072,96,True,0.023,283,True,0.044,878,True,0.007,132
+3,Valid Parentheses Matching,Stack,2,False,0.076,81,True,0.016,242,True,0.029,878,True,0.003,117
+4,Longest Common Prefix,String,2,False,0.026,76,True,0.024,249,True,0.025,878,True,0.003,112
+5,Merge Overlapping Intervals,Array,2,True,0.111,83,True,0.021,268,True,0.057,878,True,0.004,118
+6,Reverse Integer with 32-bit Boundary,Math,2,False,0.052,91,True,0.016,258,True,0.034,878,True,0.004,127
+7,Maximum Subarray Sum (Kadane),DynamicProgramming,2,False,0.031,84,True,0.012,263,True,0.026,878,True,0.002,120
+8,Climbing Stairs DP,DynamicProgramming,2,False,0.049,73,True,0.021,222,True,0.035,878,True,0.003,109
+9,Binary Search Target Index,Search,2,False,0.036,81,True,0.014,251,True,0.024,878,True,0.002,117
+10,Rotate 2D Matrix 90 Degrees,Matrix,3,False,0.074,83,True,0.015,327,True,0.03,878,True,0.009,161
+11,Subarray Product & Boundary Check #11,Array,2,False,0.027,93,True,0.008,254,True,0.021,878,True,0.002,128
+12,String Token Sanitizer & Deduplication #12,String,1,True,0.036,98,True,0.008,156,True,0.036,878,True,0.003,133
+13,GCD & LCM Vector Computation #13,Math,2,False,0.026,88,True,0.007,241,True,0.021,878,True,0.002,123
+14,Coin Change Minimum Count #14,DynamicProgramming,2,False,0.034,85,True,0.028,245,True,0.056,878,True,0.008,120
+15,Peak Element Finder #15,Search,1,True,0.023,79,True,0.005,137,True,0.027,878,True,0.002,114
+16,Matrix Diagonal Sum #16,Matrix,2,False,0.034,79,True,0.014,261,True,0.03,878,True,0.003,114
+17,Single Number Extractor #17,BitManipulation,2,False,0.022,83,True,0.007,239,True,0.021,878,True,0.001,118
+18,Subarray Product & Boundary Check #18,Array,1,True,0.017,93,True,0.004,151,True,0.025,878,True,0.002,128
+19,String Token Sanitizer & Deduplication #19,String,2,False,0.042,98,True,0.02,337,True,0.039,878,True,0.003,133
+20,GCD & LCM Vector Computation #20,Math,3,False,0.022,88,True,0.007,241,True,0.019,878,True,0.005,166
+21,Coin Change Minimum Count #21,DynamicProgramming,1,True,0.034,85,True,0.016,143,True,0.055,878,True,0.007,120
+22,Peak Element Finder #22,Search,2,False,0.03,79,True,0.008,238,True,0.024,878,True,0.002,114
+23,Matrix Diagonal Sum #23,Matrix,2,False,0.033,79,True,0.012,261,True,0.031,878,True,0.004,114
+24,Single Number Extractor #24,BitManipulation,1,True,0.021,83,True,0.004,141,True,0.025,878,True,0.002,118
+25,Subarray Product & Boundary Check #25,Array,3,False,0.037,93,True,0.008,254,True,0.023,878,True,0.003,171
+26,String Token Sanitizer & Deduplication #26,String,2,False,0.027,98,True,0.016,337,True,0.032,878,True,0.003,133
+27,GCD & LCM Vector Computation #27,Math,1,True,0.019,88,True,0.003,146,True,0.024,878,True,0.002,123
+28,Coin Change Minimum Count #28,DynamicProgramming,2,False,0.023,85,True,0.02,245,True,0.049,878,True,0.007,120
+29,Peak Element Finder #29,Search,2,False,0.021,79,True,0.007,238,True,0.022,878,True,0.002,114
+30,Matrix Diagonal Sum #30,Matrix,1,True,0.065,79,True,0.007,137,True,0.036,878,True,0.003,114
+31,Single Number Extractor #31,BitManipulation,2,False,0.025,83,True,0.008,239,True,0.019,878,True,0.001,118
+32,Subarray Product & Boundary Check #32,Array,2,False,0.024,93,True,0.006,254,True,0.021,878,True,0.002,128
+33,String Token Sanitizer & Deduplication #33,String,1,True,0.031,98,True,0.008,156,True,0.035,878,True,0.003,133
+34,GCD & LCM Vector Computation #34,Math,2,False,0.024,88,True,0.007,241,True,0.021,878,True,0.001,123
+35,Coin Change Minimum Count #35,DynamicProgramming,3,False,0.026,85,True,0.023,245,True,0.049,878,True,0.01,163
+36,Peak Element Finder #36,Search,1,True,0.02,79,True,0.004,137,True,0.029,878,True,0.002,114
+37,Matrix Diagonal Sum #37,Matrix,2,False,0.029,79,True,0.012,261,True,0.031,878,True,0.003,114
+38,Single Number Extractor #38,BitManipulation,2,False,0.021,83,True,0.007,239,True,0.019,878,True,0.001,118
+39,Subarray Product & Boundary Check #39,Array,1,True,0.019,93,True,0.004,151,True,0.026,878,True,0.002,128
+40,String Token Sanitizer & Deduplication #40,String,3,False,0.024,98,True,0.016,337,True,0.031,878,True,0.006,176
+41,GCD & LCM Vector Computation #41,Math,2,False,0.023,88,True,0.007,241,True,0.02,878,True,0.002,123
+42,Coin Change Minimum Count #42,DynamicProgramming,1,True,0.035,85,True,0.016,143,True,0.055,878,True,0.007,120
+43,Peak Element Finder #43,Search,2,False,0.022,79,True,0.007,238,True,0.022,878,True,0.002,114
+44,Matrix Diagonal Sum #44,Matrix,2,False,0.033,79,True,0.013,261,True,0.031,878,True,0.003,114
+45,Single Number Extractor #45,BitManipulation,1,True,0.02,83,True,0.003,141,True,0.04,878,True,0.002,118
+46,Subarray Product & Boundary Check #46,Array,2,False,0.036,93,True,0.008,254,True,0.031,878,True,0.002,128
+47,String Token Sanitizer & Deduplication #47,String,2,False,0.028,98,True,0.018,337,True,0.033,878,True,0.003,133
+48,GCD & LCM Vector Computation #48,Math,1,True,0.017,88,True,0.003,146,True,0.025,878,True,0.002,123
+49,Coin Change Minimum Count #49,DynamicProgramming,2,False,0.023,85,True,0.021,245,True,0.048,878,True,0.007,120
+50,Peak Element Finder #50,Search,3,False,0.021,79,True,0.007,238,True,0.022,878,True,0.003,157

@@ -1,0 +1,206 @@
+{
+  "metadata": {
+    "title": "다중 에이전트 협업 토폴로지 Pandas 심층 통계 분석 데이터셋",
+    "total_tasks": 50,
+    "generated_by": "Pandas v3.0.6",
+    "author": "장진영 (SKT ALEPH 1기)"
+  },
+  "topology_statistics": [
+    {
+      "topology": "Linear Pipeline",
+      "pass_rate_pct": 30.0,
+      "pass_count": 15,
+      "fail_count": 35,
+      "mean_latency_ms": 0.0333,
+      "std_latency_ms": 0.0182,
+      "median_latency_ms": 0.027,
+      "p95_latency_ms": 0.0731,
+      "min_latency_ms": 0.017,
+      "max_latency_ms": 0.111,
+      "mean_payload_bytes": 85.9,
+      "total_payload_bytes": 4294,
+      "efficiency_ratio": 875.66
+    },
+    {
+      "topology": "Star (Hub-and-Spoke)",
+      "pass_rate_pct": 100.0,
+      "pass_count": 50,
+      "fail_count": 0,
+      "mean_latency_ms": 0.0115,
+      "std_latency_ms": 0.0066,
+      "median_latency_ms": 0.008,
+      "p95_latency_ms": 0.023,
+      "min_latency_ms": 0.003,
+      "max_latency_ms": 0.028,
+      "mean_payload_bytes": 228.1,
+      "total_payload_bytes": 11406,
+      "efficiency_ratio": 7987.22
+    },
+    {
+      "topology": "Full Mesh (Debate)",
+      "pass_rate_pct": 100.0,
+      "pass_count": 50,
+      "fail_count": 0,
+      "mean_latency_ms": 0.0317,
+      "std_latency_ms": 0.0111,
+      "median_latency_ms": 0.0295,
+      "p95_latency_ms": 0.055,
+      "min_latency_ms": 0.019,
+      "max_latency_ms": 0.057,
+      "mean_payload_bytes": 878.0,
+      "total_payload_bytes": 43898,
+      "efficiency_ratio": 3061.85
+    },
+    {
+      "topology": "Hierarchical Tree",
+      "pass_rate_pct": 100.0,
+      "pass_count": 50,
+      "fail_count": 0,
+      "mean_latency_ms": 0.0034,
+      "std_latency_ms": 0.0022,
+      "median_latency_ms": 0.003,
+      "p95_latency_ms": 0.0075,
+      "min_latency_ms": 0.001,
+      "max_latency_ms": 0.01,
+      "mean_payload_bytes": 126.2,
+      "total_payload_bytes": 6310,
+      "efficiency_ratio": 22624.43
+    }
+  ],
+  "category_statistics": [
+    {
+      "category": "Array",
+      "count": 8,
+      "linear_pass_pct": 50.0,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0083,
+      "mesh_avg_latency_ms": 0.0324,
+      "star_avg_bytes": 215.4
+    },
+    {
+      "category": "BitManipulation",
+      "count": 5,
+      "linear_pass_pct": 40.0,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0058,
+      "mesh_avg_latency_ms": 0.0248,
+      "star_avg_bytes": 199.8
+    },
+    {
+      "category": "DynamicProgramming",
+      "count": 8,
+      "linear_pass_pct": 25.0,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0196,
+      "mesh_avg_latency_ms": 0.0466,
+      "star_avg_bytes": 218.9
+    },
+    {
+      "category": "Math",
+      "count": 7,
+      "linear_pass_pct": 28.6,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0071,
+      "mesh_avg_latency_ms": 0.0234,
+      "star_avg_bytes": 216.3
+    },
+    {
+      "category": "Matrix",
+      "count": 6,
+      "linear_pass_pct": 16.7,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0122,
+      "mesh_avg_latency_ms": 0.0315,
+      "star_avg_bytes": 251.3
+    },
+    {
+      "category": "Search",
+      "count": 7,
+      "linear_pass_pct": 28.6,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0074,
+      "mesh_avg_latency_ms": 0.0243,
+      "star_avg_bytes": 211.0
+    },
+    {
+      "category": "Stack",
+      "count": 1,
+      "linear_pass_pct": 0.0,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.016,
+      "mesh_avg_latency_ms": 0.029,
+      "star_avg_bytes": 242.0
+    },
+    {
+      "category": "String",
+      "count": 8,
+      "linear_pass_pct": 25.0,
+      "star_pass_pct": 100.0,
+      "mesh_pass_pct": 100.0,
+      "tree_pass_pct": 100.0,
+      "star_avg_latency_ms": 0.0166,
+      "mesh_avg_latency_ms": 0.0344,
+      "star_avg_bytes": 274.0
+    }
+  ],
+  "complexity_statistics": [
+    {
+      "complexity_level": 1,
+      "task_count": 14,
+      "linear_pass_pct": 100.0,
+      "star_pass_pct": 100.0,
+      "self_healing_gain_pct": 0.0
+    },
+    {
+      "complexity_level": 2,
+      "task_count": 30,
+      "linear_pass_pct": 3.3,
+      "star_pass_pct": 100.0,
+      "self_healing_gain_pct": 96.7
+    },
+    {
+      "complexity_level": 3,
+      "task_count": 6,
+      "linear_pass_pct": 0.0,
+      "star_pass_pct": 100.0,
+      "self_healing_gain_pct": 100.0
+    }
+  ],
+  "multi_round_trend": [
+    {
+      "round": 1,
+      "linear_ms": 0.0046,
+      "star_ms": 0.0062,
+      "mesh_ms": 0.02,
+      "tree_ms": 0.0029
+    },
+    {
+      "round": 2,
+      "linear_ms": 0.0039,
+      "star_ms": 0.0054,
+      "mesh_ms": 0.0192,
+      "tree_ms": 0.0028
+    },
+    {
+      "round": 3,
+      "linear_ms": 0.0039,
+      "star_ms": 0.0054,
+      "mesh_ms": 0.0192,
+      "tree_ms": 0.0028
+    }
+  ]
+}
