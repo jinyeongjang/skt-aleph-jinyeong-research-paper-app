@@ -22,10 +22,14 @@ import {
   FileText,
   Copy,
   Check,
-  Bot,
-  UserCheck,
+  Building2,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { DockBar } from './DockBar';
+import { REAL_WORLD_PRESETS } from '../data/realLifeData';
+import { TopologyNetworkGraph } from './TopologyNetworkGraph';
+import { TopologyComparisonView } from './TopologyComparisonView';
+import { RealWorldSimulator } from './RealWorldSimulator';
 
 // ==========================================
 // 1. 알고리즘 프리셋 데이터 및 자가 치유 패치
@@ -237,6 +241,7 @@ const ALGORITHM_PRESETS: AlgorithmPreset[] = [
 export const ResearchPaperApp: React.FC = () => {
   const [selectedPresetId, setSelectedPresetId] = useState<string>('two-sum');
   const [selectedTopology, setSelectedTopology] = useState<'linear' | 'star' | 'mesh' | 'tree'>('star');
+  const [mainViewMode, setMainViewMode] = useState<'real-world' | 'code-tests' | 'compare-matrix'>('real-world');
   const [customCode, setCustomCode] = useState<string>('');
   const [isCustomMode, setIsCustomMode] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -245,6 +250,7 @@ export const ResearchPaperApp: React.FC = () => {
   const [editorTab, setEditorTab] = useState<'code' | 'tests'>('code');
 
   const currentPreset = ALGORITHM_PRESETS.find((p) => p.id === selectedPresetId) || ALGORITHM_PRESETS[0];
+  const currentRealWorldPreset = REAL_WORLD_PRESETS.find((p) => p.id === selectedPresetId) || REAL_WORLD_PRESETS[0];
 
   // 시뮬레이션 결과 상태
   const [executionResult, setExecutionResult] = useState<{
@@ -266,7 +272,7 @@ export const ResearchPaperApp: React.FC = () => {
     totalCount: 3,
     status: 'PASS',
     summary:
-      '중앙 조율형(Star) 허브가 전담 엣지 검증자의 실패 리포트를 수신하여 즉각 1회의 자가 교정 피드백 루프를 가동함으로써, 엣지 케이스 단위 테스트(assert)를 100% 전수 통과하였습니다.',
+      '중앙 조율형(Star) 허브가 전담 엣지 검증자의 실패 리포트를 수신하여 즉각 1회의 자가 교정 피드백 루프를 가동함으로써, 엣지 케이스 단위 테스트(assert)를 100% 전수 통과하였습니다. (토론형 대비 지연시간 70.62% 단축, 통신량 74.02% 절감)',
     traces: [
       {
         step: 1,
@@ -308,6 +314,7 @@ export const ResearchPaperApp: React.FC = () => {
   // 사용자가 잘못된 입력을 넣어도 멈추지 않는 안전 가드레일 (BRB-C05)
   const handleTriggerInvalidInputTest = () => {
     setIsCustomMode(true);
+    setMainViewMode('code-tests');
     setCustomCode(
       '### [비정상 입력 테스트: 특수문자 깨짐 및 구문 오류] ###\nfunction @#!%?_crash() { syntax error <<<',
     );
@@ -343,7 +350,7 @@ export const ResearchPaperApp: React.FC = () => {
           totalCount: 3,
           status: 'FAIL',
           summary:
-            '순차형 파이프라인(Linear)은 얕은 스모크 테스트만 거쳐 리뷰어를 통과시켰으나, 엣지 케이스 단위 테스트(assert)에서 연쇄 오류(Cascading Error)가 발생하여 최종 검증에 실패하였습니다.',
+            '순차형 파이프라인(Linear)은 얕은 스모크 테스트만 거쳐 리뷰어를 통과시켰으나, 엣지 케이스 단위 테스트(assert)에서 연쇄 오류(Cascading Error)가 발생하여 최종 검증에 실패하였습니다. 실생활 서비스 배포 시 심각한 결제 튕김 및 장애가 유발됩니다.',
           traces: [
             {
               step: 1,
@@ -356,14 +363,14 @@ export const ResearchPaperApp: React.FC = () => {
               step: 2,
               sender: 'Agent B (구현자)',
               receiver: 'Agent C (리뷰어)',
-              message: '1차 코드 제출 (엣지 결함 미인지)',
+              message: '1차 코드 제출 (동일 인덱스 중복 버그 미인지)',
               bytes: 32,
             },
             {
               step: 3,
               sender: 'Agent C (리뷰어)',
               receiver: '최종 채점기',
-              message: '스모크 테스트 통과 판정 후 배포 시도 (실제 단위 테스트에서 런타임 오류 발생)',
+              message: '스모크 테스트 통과 판정 후 배포 시도 (실제 엣지 단위 테스트에서 런타임 오류 발생)',
               bytes: 26,
             },
           ],
@@ -379,7 +386,7 @@ export const ResearchPaperApp: React.FC = () => {
           totalCount: 3,
           status: 'PASS',
           summary:
-            '중앙 조율형(Star)은 허브가 엣지 검증자의 실패 리포트를 수신하여 1회의 자가 교정 피드백 루프를 가동함으로써, 엣지 케이스 단위 테스트(assert)를 100% 전수 통과하였습니다. (토론형 대비 지연시간 70.62% 단축, 통신량 74.02% 절감)',
+            '중앙 조율형(Star)은 허브가 엣지 검증자의 실패 리포트를 수신하여 1회의 자가 교정 피드백 루프를 가동함으로써, 엣지 케이스 단위 테스트(assert)를 100% 전수 통과하였습니다. (토론형 대비 지연시간 70.62% 단축, 통신량 74.02% 절감 달성)',
           traces: [
             {
               step: 1,
@@ -392,7 +399,7 @@ export const ResearchPaperApp: React.FC = () => {
               step: 2,
               sender: '전문가 1 (구현자)',
               receiver: 'Hub (오케스트레이터)',
-              message: '1차 초안 제출',
+              message: '1차 초안 제출 (엣지 결함 감지 대기)',
               bytes: 42,
             },
             {
@@ -422,7 +429,7 @@ export const ResearchPaperApp: React.FC = () => {
           totalCount: 3,
           status: 'PASS',
           summary:
-            '완전 연결 토론형(Full Mesh)은 3개 에이전트가 9회의 전원 교차 검증을 거쳐 100% 통과율을 달성하였으나, 중앙 조율형 대비 지연시간이 3.4배 증가(0.0194ms)하고 통신량이 3.8배 폭증(878.0B)하여 효율성이 크게 저하되었습니다.',
+            '완전 연결 토론형(Full Mesh)은 3개 에이전트가 9회의 전원 교차 검증을 거쳐 100% 통과율을 달성하였으나, 중앙 조율형 대비 지연시간이 3.4배 증가(0.0194ms)하고 통신량이 3.8배 폭증(878.0B)하여 실생활 서비스 적용 시 막대한 자원 낭비가 발생합니다.',
           traces: [
             {
               step: 1,
@@ -442,7 +449,7 @@ export const ResearchPaperApp: React.FC = () => {
               step: 3,
               sender: 'Agent 3 ↔ Agent 1, 2',
               receiver: '라운드 2 다수결 투표',
-              message: '단위 테스트 최다 통과 패치 최종 채택',
+              message: '단위 테스트 최다 통과 패치 최종 채택 (통신량 및 지연시간 폭증)',
               bytes: 288,
             },
           ],
@@ -495,9 +502,9 @@ export const ResearchPaperApp: React.FC = () => {
       className="glass-panel-elevated relative space-y-6 overflow-hidden rounded-3xl pb-28 sm:space-y-8 sm:pb-32"
     >
       {/* ============================================================== */}
-      {/* 0. macOS 스타일 데스크톱 앱 윈도우 타이틀바 (App Shell Glass Styling) */}
+      {/* 0. 데스크톱 앱 윈도우 타이틀바 & 글로벌 뷰 전환 스위처 */}
       {/* ============================================================== */}
-      <div className="flex items-center justify-between border-b border-white/60 bg-white/40 px-4 py-3 backdrop-blur-md sm:px-6 dark:border-white/10 dark:bg-black/30">
+      <div className="flex flex-wrap items-center justify-between border-b border-white/60 bg-white/40 px-4 py-3 backdrop-blur-md sm:px-6 dark:border-white/10 dark:bg-black/30">
         <div className="flex items-center gap-3">
           {/* macOS 윈도우 제어 버튼 3종 */}
           <div className="flex items-center gap-1.5" aria-hidden="true">
@@ -510,20 +517,51 @@ export const ResearchPaperApp: React.FC = () => {
             <span>TopologyHeal Studio</span>
             <span className="text-neutral-400">/</span>
             <span className="text-2xs font-normal text-neutral-500 dark:text-neutral-400">
-              Multi-Agent Self-Healing Engine v1.2
+              Real-World Multi-Agent Self-Healing Engine v2.0
             </span>
           </div>
         </div>
 
-        {/* 앱 상태 표시 뱃지 */}
-        <div className="text-2xs flex items-center gap-2">
-          <span className="glass-pill inline-flex items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50/80 px-2.5 py-0.5 font-bold text-emerald-700 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-            <span>ENGINE ACTIVE</span>
-          </span>
-          <span className="glass-pill hidden rounded-md px-2 py-0.5 font-mono font-semibold text-neutral-600 sm:inline dark:text-neutral-300">
-            PYTHON 3.12 LOCAL
-          </span>
+        {/* 뷰 모드 전환 탭 (실생활 서비스 vs 코드 에디터 vs 4대 토폴로지 비교) */}
+        <div className="flex items-center gap-1 rounded-2xl border border-white/70 bg-white/80 p-1.5 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-black/60">
+          <button
+            type="button"
+            onClick={() => setMainViewMode('real-world')}
+            className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
+              mainViewMode === 'real-world'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
+                : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+            }`}
+          >
+            <Building2 className="h-3.5 w-3.5" />
+            <span>🎯 실생활 서비스 뷰</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMainViewMode('compare-matrix')}
+            className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
+              mainViewMode === 'compare-matrix'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
+                : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+            }`}
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            <span>📊 4대 토폴로지 직관 비교</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMainViewMode('code-tests')}
+            className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
+              mainViewMode === 'code-tests'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
+                : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+            }`}
+          >
+            <Code2 className="h-3.5 w-3.5" />
+            <span>💻 코드 & assert 단위 테스트</span>
+          </button>
         </div>
       </div>
 
@@ -655,11 +693,12 @@ export const ResearchPaperApp: React.FC = () => {
                   1
                 </span>
                 <span className="text-xs font-bold text-neutral-900 group-hover:text-blue-600 dark:text-neutral-100 dark:group-hover:text-blue-400">
-                  문제 및 코드 선택/입력
+                  실생활 문제/코드 선택
                 </span>
               </div>
               <p className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
-                4대 실전 알고리즘 프리셋(Two Sum, 팰린드롬, 피보나치, 괄호) 중 하나를 선택하거나 직접 코드를 입력합니다.
+                4대 실생활 알고리즘(쇼핑몰 결제, 출입 게이트, 복리 적금, 계약서) 중 하나를 고르거나 직접 코드를
+                입력합니다.
               </p>
             </a>
 
@@ -672,11 +711,12 @@ export const ResearchPaperApp: React.FC = () => {
                   2
                 </span>
                 <span className="text-xs font-bold text-neutral-900 group-hover:text-blue-600 dark:text-neutral-100 dark:group-hover:text-blue-400">
-                  토폴로지 선택 & 실행
+                  토폴로지 선택 & 자가 치유 실행
                 </span>
               </div>
               <p className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
-                순차형(Linear)과 중앙 조율형(Star) 등 4대 토폴로지를 선택하고 [자가 치유 & 검증 실행] 버튼을 누릅니다.
+                순차형(공장 벨트), 중앙 조율형(수술실 집도의) 등 4대 토폴로지를 선택하고 [자가 치유 실행] 버튼을
+                누릅니다.
               </p>
             </a>
 
@@ -689,7 +729,7 @@ export const ResearchPaperApp: React.FC = () => {
                   3
                 </span>
                 <span className="text-xs font-bold text-neutral-900 group-hover:text-blue-600 dark:text-neutral-100 dark:group-hover:text-blue-400">
-                  결과 및 패치 코드 확인
+                  결과 & 패치 코드 Diff 확인
                 </span>
               </div>
               <p className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
@@ -700,7 +740,19 @@ export const ResearchPaperApp: React.FC = () => {
         </section>
 
         {/* ============================================================== */}
-        {/* 3. STEP 1: 알고리즘 문제 선택 및 코드 검토 (BRB-C02-1, BRB-C05) */}
+        {/* 특별 섹션: 4대 토폴로지 한눈에 직관 비교 매트릭스 (요청 사항 반영) */}
+        {/* ============================================================== */}
+        {mainViewMode === 'compare-matrix' && (
+          <div className="space-y-4">
+            <TopologyComparisonView
+              selectedTopology={selectedTopology}
+              onSelectTopology={(topo) => setSelectedTopology(topo)}
+            />
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* 3. STEP 1: 알고리즘 문제 선택 및 실생활 시뮬레이터 (BRB-C02-1, BRB-C05) */}
         {/* ============================================================== */}
         <section
           id="step-1"
@@ -711,12 +763,12 @@ export const ResearchPaperApp: React.FC = () => {
             <div className="flex items-center gap-2">
               <Code2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
               <h2 id="step1-heading" className="text-xs font-bold text-neutral-900 uppercase dark:text-neutral-100">
-                Step 1 · 알고리즘 문제 및 단위 테스트 대상 선택
+                Step 1 · 실생활 적용 서비스 및 단위 테스트 대상 선택
               </h2>
             </div>
 
             {/* 비정상 입력 방어 테스트 버튼 (BRB-C05) */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={handleTriggerInvalidInputTest}
@@ -729,6 +781,9 @@ export const ResearchPaperApp: React.FC = () => {
                 type="button"
                 onClick={() => {
                   setIsCustomMode(!isCustomMode);
+                  if (!isCustomMode) {
+                    setMainViewMode('code-tests');
+                  }
                   setValidationError(null);
                 }}
                 className="glass-pill text-2xs rounded-lg px-2.5 py-1 font-semibold text-neutral-700 hover:text-neutral-900 focus-visible:ring-2 focus-visible:ring-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
@@ -738,27 +793,40 @@ export const ResearchPaperApp: React.FC = () => {
             </div>
           </div>
 
-          {/* 4대 알고리즘 프리셋 칩 */}
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-            {ALGORITHM_PRESETS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => {
-                  setSelectedPresetId(p.id);
-                  setIsCustomMode(false);
-                  setValidationError(null);
-                }}
-                className={`glass-panel rounded-xl p-3 text-left transition-all duration-200 hover:-translate-y-0.5 ${
-                  !isCustomMode && selectedPresetId === p.id
-                    ? 'border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
-                    : 'text-neutral-700 hover:border-blue-300/60 dark:text-neutral-300 dark:hover:border-blue-500/40'
-                }`}
-              >
-                <div className="text-xs">{p.name}</div>
-                <div className="text-2xs mt-0.5 font-normal text-neutral-500 dark:text-neutral-400">{p.domain}</div>
-              </button>
-            ))}
+          {/* 4대 실생활 알고리즘 프리셋 칩 (실생활 서비스 명칭 결합) */}
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+            {REAL_WORLD_PRESETS.map((p) => {
+              const isSelected = !isCustomMode && selectedPresetId === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedPresetId(p.id);
+                    setIsCustomMode(false);
+                    setValidationError(null);
+                  }}
+                  className={`glass-panel rounded-xl p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 ${
+                    isSelected
+                      ? 'border-2 border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
+                      : 'text-neutral-700 hover:border-blue-300/60 dark:text-neutral-300 dark:hover:border-blue-500/40'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xs font-extrabold text-blue-600 uppercase dark:text-blue-400">
+                      {p.name.split(' (')[0]}
+                    </span>
+                    <span className="font-mono text-[10px] text-neutral-400">{p.realLifeDomain.split(' ')[0]}</span>
+                  </div>
+                  <div className="mt-1 line-clamp-1 text-xs font-bold text-neutral-900 dark:text-neutral-100">
+                    {p.realLifeTitle}
+                  </div>
+                  <div className="mt-0.5 line-clamp-1 text-[11px] text-neutral-500 dark:text-neutral-400">
+                    {p.serviceName}
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
           {/* 검증 에러 안내 배너 (앱 중단 방지 · BRB-C05) */}
@@ -769,109 +837,120 @@ export const ResearchPaperApp: React.FC = () => {
             </div>
           )}
 
-          {/* 앱 스타일 에디터 워크스페이스: 글래스 다크 터미널 */}
-          <div className="overflow-hidden rounded-2xl border border-white/20 bg-neutral-950/85 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-black/85">
-            {/* 에디터 상단 탭 바 */}
-            <div className="flex items-center justify-between border-b border-white/10 bg-black/40 px-4 py-2 backdrop-blur-md">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setEditorTab('code')}
-                  className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1 font-mono text-xs transition-all ${
-                    editorTab === 'code'
-                      ? 'border border-white/20 bg-white/15 font-bold text-white shadow-xs backdrop-blur-sm'
-                      : 'text-neutral-400 hover:text-neutral-200'
-                  }`}
-                >
-                  <FileText className="h-3 w-3 text-blue-400" />
-                  <span>{isCustomMode ? 'custom_solution.py' : currentPreset.filename}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditorTab('tests')}
-                  className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1 font-mono text-xs transition-all ${
-                    editorTab === 'tests'
-                      ? 'border border-white/20 bg-white/15 font-bold text-white shadow-xs backdrop-blur-sm'
-                      : 'text-neutral-400 hover:text-neutral-200'
-                  }`}
-                >
-                  <CheckCircle2 className="h-3 w-3 text-emerald-400" />
-                  <span>test_cases.py (3 tests)</span>
-                </button>
-              </div>
-
-              <div className="text-2xs flex items-center gap-2 font-mono text-neutral-400">
-                <span>UTF-8</span>
-                <span>•</span>
-                <span>Python 3.12</span>
-              </div>
-            </div>
-
-            {/* 에디터 본체 */}
-            <div className="p-4">
-              {editorTab === 'code' ? (
-                <div>
-                  {isCustomMode ? (
-                    <textarea
-                      value={customCode}
-                      onChange={(e) => setCustomCode(e.target.value)}
-                      rows={8}
-                      placeholder="테스트할 알고리즘 코드를 입력하세요... (잘못된 입력을 넣어도 앱은 중단되지 않습니다)"
-                      className="w-full rounded-xl border border-white/15 bg-black/60 p-3 font-mono text-xs text-emerald-300 backdrop-blur-md outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                    />
-                  ) : (
-                    <div className="flex font-mono text-xs leading-relaxed">
-                      {/* 줄 번호 표시 */}
-                      <div className="pr-4 text-right text-neutral-600 select-none" aria-hidden="true">
-                        {currentPreset.initialCode.split('\n').map((_, i) => (
-                          <div key={i}>{i + 1}</div>
-                        ))}
-                      </div>
-                      <pre className="overflow-x-auto text-neutral-200">
-                        <code>{currentPreset.initialCode}</code>
-                      </pre>
-                    </div>
-                  )}
-                  <div className="text-2xs mt-3 border-t border-white/10 pt-2 text-neutral-400">
-                    <span className="font-bold text-red-400">● 결함 원인: </span>
-                    {currentPreset.bugExplanation}
-                  </div>
+          {/* 메인 뷰: 실생활 서비스 뷰 vs 코드 에디터 뷰 */}
+          {mainViewMode === 'real-world' && !isCustomMode ? (
+            <RealWorldSimulator
+              preset={currentRealWorldPreset}
+              selectedTopology={selectedTopology}
+              onRunSimulation={handleRunApp}
+              isRunning={isRunning}
+            />
+          ) : (
+            /* 코드 에디터 워크스페이스: 글래스 다크 터미널 */
+            <div className="overflow-hidden rounded-2xl border border-white/20 bg-neutral-950/85 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-black/85">
+              {/* 에디터 상단 탭 바 */}
+              <div className="flex items-center justify-between border-b border-white/10 bg-black/40 px-4 py-2 backdrop-blur-md">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditorTab('code')}
+                    className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1 font-mono text-xs transition-all ${
+                      editorTab === 'code'
+                        ? 'border border-white/20 bg-white/15 font-bold text-white shadow-xs backdrop-blur-sm'
+                        : 'text-neutral-400 hover:text-neutral-200'
+                    }`}
+                  >
+                    <FileText className="h-3 w-3 text-blue-400" />
+                    <span>{isCustomMode ? 'custom_solution.py' : currentPreset.filename}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditorTab('tests')}
+                    className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1 font-mono text-xs transition-all ${
+                      editorTab === 'tests'
+                        ? 'border border-white/20 bg-white/15 font-bold text-white shadow-xs backdrop-blur-sm'
+                        : 'text-neutral-400 hover:text-neutral-200'
+                    }`}
+                  >
+                    <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                    <span>test_cases.py (3 tests)</span>
+                  </button>
                 </div>
-              ) : (
-                <div className="space-y-2.5">
-                  <div className="text-2xs pb-1 font-mono text-neutral-400">
-                    # 자동 검증 단위 테스트 슈트 (assert cases)
-                  </div>
-                  {currentPreset.testCases.map((tc, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start justify-between rounded-lg border border-white/10 bg-white/5 p-3 font-mono text-xs backdrop-blur-md"
-                    >
-                      <div>
-                        <div className="font-bold text-blue-300">
-                          assert {currentPreset.id.replace('-', '_')}({tc.input.split(', target')[0]}) == {tc.expected}
+
+                <div className="text-2xs flex items-center gap-2 font-mono text-neutral-400">
+                  <span>UTF-8</span>
+                  <span>•</span>
+                  <span>Python 3.12</span>
+                </div>
+              </div>
+
+              {/* 에디터 본체 */}
+              <div className="p-4">
+                {editorTab === 'code' ? (
+                  <div>
+                    {isCustomMode ? (
+                      <textarea
+                        value={customCode}
+                        onChange={(e) => setCustomCode(e.target.value)}
+                        rows={8}
+                        placeholder="테스트할 알고리즘 코드를 입력하세요... (잘못된 입력을 넣어도 앱은 중단되지 않습니다)"
+                        className="w-full rounded-xl border border-white/15 bg-black/60 p-3 font-mono text-xs text-emerald-300 backdrop-blur-md outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      />
+                    ) : (
+                      <div className="flex font-mono text-xs leading-relaxed">
+                        {/* 줄 번호 표시 */}
+                        <div className="pr-4 text-right text-neutral-600 select-none" aria-hidden="true">
+                          {currentPreset.initialCode.split('\n').map((_, i) => (
+                            <div key={i}>{i + 1}</div>
+                          ))}
                         </div>
-                        <div className="text-2xs mt-1 text-neutral-400">{tc.description}</div>
+                        <pre className="overflow-x-auto text-neutral-200">
+                          <code>{currentPreset.initialCode}</code>
+                        </pre>
                       </div>
-                      <span
-                        className={`text-2xs rounded px-2 py-0.5 font-bold ${
-                          tc.isEdgeCase
-                            ? 'border border-amber-500/40 bg-amber-500/20 text-amber-300'
-                            : 'border border-white/10 bg-white/10 text-neutral-300'
-                        }`}
-                      >
-                        {tc.isEdgeCase ? '엣지 결함 검증' : '스모크 케이스'}
-                      </span>
+                    )}
+                    <div className="text-2xs mt-3 border-t border-white/10 pt-2 text-neutral-400">
+                      <span className="font-bold text-red-400">● 결함 원인: </span>
+                      {currentPreset.bugExplanation}
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div className="space-y-2.5">
+                    <div className="text-2xs pb-1 font-mono text-neutral-400">
+                      # 자동 검증 단위 테스트 슈트 (assert cases)
+                    </div>
+                    {currentPreset.testCases.map((tc, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start justify-between rounded-lg border border-white/10 bg-white/5 p-3 font-mono text-xs backdrop-blur-md"
+                      >
+                        <div>
+                          <div className="font-bold text-blue-300">
+                            assert {currentPreset.id.replace('-', '_')}({tc.input.split(', target')[0]}) =={' '}
+                            {tc.expected}
+                          </div>
+                          <div className="text-2xs mt-1 text-neutral-400">{tc.description}</div>
+                        </div>
+                        <span
+                          className={`text-2xs rounded px-2 py-0.5 font-bold ${
+                            tc.isEdgeCase
+                              ? 'border border-amber-500/40 bg-amber-500/20 text-amber-300'
+                              : 'border border-white/10 bg-white/10 text-neutral-300'
+                          }`}
+                        >
+                          {tc.isEdgeCase ? '엣지 결함 검증' : '스모크 케이스'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
         {/* ============================================================== */}
-        {/* 4. STEP 2: 4대 토폴로지 선택 & 실시간 실행 (BRB-C02-2, BRB-C04) */}
+        {/* 4. STEP 2: 4대 토폴로지 선택 & 실시간 네트워크 맵 (BRB-C02-2, BRB-C04) */}
         {/* ============================================================== */}
         <section
           id="step-2"
@@ -897,14 +976,15 @@ export const ResearchPaperApp: React.FC = () => {
             </button>
           </div>
 
-          {/* 4대 토폴로지 선택 카드 */}
+          {/* 4대 토폴로지 선택 카드 (실생활 비유 명시) */}
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+            {/* 1. 순차형 */}
             <button
               type="button"
               onClick={() => setSelectedTopology('linear')}
               className={`glass-panel rounded-xl p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 ${
                 selectedTopology === 'linear'
-                  ? 'border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
+                  ? 'border-2 border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
                   : 'text-neutral-700 hover:border-blue-300/60 dark:text-neutral-300 dark:hover:border-blue-500/40'
               }`}
             >
@@ -912,17 +992,21 @@ export const ResearchPaperApp: React.FC = () => {
                 <span className="text-xs font-bold">1. 순차형 (Linear)</span>
                 <ArrowRight className="h-3.5 w-3.5 text-neutral-400" />
               </div>
+              <div className="text-2xs mt-1 font-semibold text-neutral-800 dark:text-neutral-200">
+                🏭 공장 컨베이어 벨트 (일방통행)
+              </div>
               <div className="text-2xs mt-1 text-neutral-500 dark:text-neutral-400">
-                단방향 파이프라인 · 얕은 리뷰로 연쇄 오류 누적 (논문 통과율 30.0%)
+                얕은 리뷰로 연쇄 오류 누적 · 논문 통과율 33.3% (실패)
               </div>
             </button>
 
+            {/* 2. 중앙 조율형 */}
             <button
               type="button"
               onClick={() => setSelectedTopology('star')}
               className={`glass-panel relative rounded-xl p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 ${
                 selectedTopology === 'star'
-                  ? 'border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
+                  ? 'border-2 border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
                   : 'text-neutral-700 hover:border-blue-300/60 dark:text-neutral-300 dark:hover:border-blue-500/40'
               }`}
             >
@@ -933,17 +1017,21 @@ export const ResearchPaperApp: React.FC = () => {
                 <span className="text-xs font-bold">2. 중앙 조율형 (Star)</span>
                 <Share2 className="h-3.5 w-3.5 text-blue-500" />
               </div>
+              <div className="text-2xs mt-1 font-semibold text-blue-700 dark:text-blue-300">
+                🏥 수술실 집도의 & 전담 의사
+              </div>
               <div className="text-2xs mt-1 text-neutral-500 dark:text-neutral-400">
-                허브-스포크 엣지 피드백 1회 자가 교정 (통과율 100%, 지연 -70.62%)
+                허브-스포크 엣지 피드백 1회 자가 교정 (통과율 100%, 지연 -70.6%)
               </div>
             </button>
 
+            {/* 3. 토론형 */}
             <button
               type="button"
               onClick={() => setSelectedTopology('mesh')}
               className={`glass-panel rounded-xl p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 ${
                 selectedTopology === 'mesh'
-                  ? 'border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
+                  ? 'border-2 border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
                   : 'text-neutral-700 hover:border-blue-300/60 dark:text-neutral-300 dark:hover:border-blue-500/40'
               }`}
             >
@@ -951,17 +1039,21 @@ export const ResearchPaperApp: React.FC = () => {
                 <span className="text-xs font-bold">3. 토론형 (Full Mesh)</span>
                 <GitMerge className="h-3.5 w-3.5 text-amber-500" />
               </div>
+              <div className="text-2xs mt-1 font-semibold text-neutral-800 dark:text-neutral-200">
+                🗣️ 사공 많은 원탁 끝장 토론
+              </div>
               <div className="text-2xs mt-1 text-neutral-500 dark:text-neutral-400">
-                9회 전원 상호 교차 검증 · 100% 통과하나 지연시간 3.4배, 통신 3.8배 낭비
+                9회 전원 교차 투표 · 100% 통과하나 지연시간 3.4배, 통신 3.8배 낭비
               </div>
             </button>
 
+            {/* 4. 계층형 */}
             <button
               type="button"
               onClick={() => setSelectedTopology('tree')}
               className={`glass-panel rounded-xl p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 ${
                 selectedTopology === 'tree'
-                  ? 'border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
+                  ? 'border-2 border-blue-500/80 bg-blue-50/80 font-bold text-blue-900 shadow-sm ring-2 ring-blue-500/30 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100'
                   : 'text-neutral-700 hover:border-blue-300/60 dark:text-neutral-300 dark:hover:border-blue-500/40'
               }`}
             >
@@ -969,85 +1061,17 @@ export const ResearchPaperApp: React.FC = () => {
                 <span className="text-xs font-bold">4. 계층형 (Tree)</span>
                 <Layers className="h-3.5 w-3.5 text-purple-500" />
               </div>
+              <div className="text-2xs mt-1 font-semibold text-neutral-800 dark:text-neutral-200">
+                🏢 대기업/군대 직급별 결재 라인
+              </div>
               <div className="text-2xs mt-1 text-neutral-500 dark:text-neutral-400">
-                매니저 ➡️ 서브리드 위임 및 실패 시 상향 에스컬레이션
+                팀장 ➡️ 서브리드 위임 및 실패 시 상향 에스컬레이션
               </div>
             </button>
           </div>
 
-          {/* 에이전트 인터랙티브 토폴로지 시각화 맵 */}
-          <div className="glass-panel rounded-xl p-4">
-            <div className="text-2xs mb-3 flex items-center justify-between font-semibold text-neutral-500 dark:text-neutral-400">
-              <span>에이전트 네트워크 토폴로지 활성 맵</span>
-              <span className="font-mono text-blue-600 dark:text-blue-400">
-                {selectedTopology === 'star'
-                  ? 'Star Topology (Hub-and-Spoke)'
-                  : selectedTopology === 'linear'
-                    ? 'Linear Pipeline'
-                    : selectedTopology === 'mesh'
-                      ? 'Full Mesh Graph'
-                      : 'Hierarchical Tree'}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-4 py-4 sm:gap-8">
-              {selectedTopology === 'star' && (
-                <>
-                  <div className="glass-pill flex flex-col items-center gap-1.5 rounded-xl p-3 text-center">
-                    <UserCheck className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
-                    <span className="text-2xs font-bold">Expert 1 (구현자)</span>
-                    <span className="text-[10px] text-neutral-500">코드 생성</span>
-                  </div>
-
-                  <div className="flex flex-col items-center">
-                    <div className="h-0.5 w-12 animate-pulse bg-blue-500 sm:w-20" />
-                    <span className="mt-1 font-mono text-[10px] text-blue-500">양방향 피드백</span>
-                  </div>
-
-                  <div className="glass-panel flex flex-col items-center gap-1.5 rounded-2xl border-2 border-blue-500/80 bg-blue-50/80 p-4 text-center shadow-md dark:border-blue-400 dark:bg-blue-950/60">
-                    <Bot className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                    <span className="text-xs font-black text-blue-900 dark:text-blue-200">Hub (오케스트레이터)</span>
-                    <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-300">자가 치유 중재</span>
-                  </div>
-
-                  <div className="flex flex-col items-center">
-                    <div className="h-0.5 w-12 animate-pulse bg-blue-500 sm:w-20" />
-                    <span className="mt-1 font-mono text-[10px] text-blue-500">실패 리포트</span>
-                  </div>
-
-                  <div className="glass-pill flex flex-col items-center gap-1.5 rounded-xl p-3 text-center">
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                    <span className="text-2xs font-bold">Expert 2 (검증자)</span>
-                    <span className="text-[10px] text-neutral-500">엣지 단위 테스트</span>
-                  </div>
-                </>
-              )}
-
-              {selectedTopology === 'linear' && (
-                <div className="flex items-center gap-3">
-                  <div className="glass-pill text-2xs rounded-xl p-2.5 text-center font-bold">기획자</div>
-                  <ArrowRight className="h-4 w-4 text-neutral-400" />
-                  <div className="glass-pill text-2xs rounded-xl p-2.5 text-center font-bold">구현자 (결함 내포)</div>
-                  <ArrowRight className="h-4 w-4 text-neutral-400" />
-                  <div className="glass-pill text-2xs rounded-xl border border-red-300/80 bg-red-50/80 p-2.5 text-center font-bold text-red-700 dark:border-red-900/80 dark:bg-red-950/60 dark:text-red-300">
-                    리뷰어 (스모크만 검토 ➡️ 연쇄 오류)
-                  </div>
-                </div>
-              )}
-
-              {selectedTopology === 'mesh' && (
-                <div className="glass-pill text-2xs rounded-xl p-3 text-center font-mono text-amber-600 dark:text-amber-400">
-                  ● 에이전트 1 ↔ 에이전트 2 ↔ 에이전트 3 (9회 교차 검증 투표망 · 고비용 오버헤드)
-                </div>
-              )}
-
-              {selectedTopology === 'tree' && (
-                <div className="glass-pill text-2xs rounded-xl p-3 text-center font-mono text-purple-600 dark:text-purple-400">
-                  Lead Manager ⬇️ Sub-Leads ⬇️ Worker Agents (계층적 작업 분할)
-                </div>
-              )}
-            </div>
-          </div>
+          {/* 실시간 에이전트 인터랙션 네트워크 그래프 맵 */}
+          <TopologyNetworkGraph topology={selectedTopology} isRunning={isRunning} status={executionResult.status} />
         </section>
 
         {/* ============================================================== */}
@@ -1071,68 +1095,88 @@ export const ResearchPaperApp: React.FC = () => {
           </div>
 
           {/* 4대 정량 지표 대시보드 카드 */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="glass-panel rounded-xl p-3.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="text-2xs font-medium text-neutral-500 dark:text-neutral-400">단위 테스트 통과율</div>
-              <div className="mt-1 flex items-center justify-center gap-1.5">
+          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
+            <div className="glass-panel flex flex-col justify-between rounded-2xl border border-white/70 bg-gradient-to-b from-white/90 via-white/70 to-white/50 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:from-neutral-900/90 dark:via-neutral-900/70 dark:to-neutral-950/60">
+              <div className="text-2xs flex items-center justify-between font-bold text-neutral-500 dark:text-neutral-400">
+                <span>단위 테스트 통과율</span>
+                <span className="py-0.2 rounded-full bg-neutral-100 px-1.5 font-mono text-[9px] dark:bg-white/10">
+                  PASS RATE
+                </span>
+              </div>
+              <div className="my-2 flex items-center justify-center gap-2">
                 {executionResult.status === 'PASS' ? (
                   <>
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">
-                      {executionResult.passRate.toFixed(1)}% (PASS)
+                    <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                    <span className="text-lg font-black tracking-tight text-emerald-600 sm:text-2xl dark:text-emerald-400">
+                      {executionResult.passRate.toFixed(1)}%
                     </span>
                   </>
                 ) : (
                   <>
-                    <XCircle className="h-4 w-4 text-red-500" />
-                    <span className="text-sm font-black text-red-600 dark:text-red-400">
-                      {executionResult.passRate.toFixed(1)}% (FAIL)
+                    <XCircle className="h-5 w-5 text-red-500" />
+                    <span className="text-lg font-black tracking-tight text-red-600 sm:text-2xl dark:text-red-400">
+                      {executionResult.passRate.toFixed(1)}%
                     </span>
                   </>
                 )}
               </div>
-              <div className="text-2xs mt-1 text-neutral-400">
+              <div className="text-2xs border-t border-white/60 pt-1.5 text-center font-semibold text-neutral-500 dark:border-white/10 dark:text-neutral-400">
                 {executionResult.passedCount} / {executionResult.totalCount} 케이스 통과
               </div>
             </div>
 
-            <div className="glass-panel rounded-xl p-3.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="text-2xs font-medium text-neutral-500 dark:text-neutral-400">실행 지연시간 (Latency)</div>
-              <div className="mt-1 flex items-center justify-center gap-1">
-                <Clock className="h-4 w-4 text-blue-500" />
-                <span className="text-sm font-black text-neutral-900 dark:text-neutral-100">
-                  {executionResult.latencyMs} ms
+            <div className="glass-panel flex flex-col justify-between rounded-2xl border border-white/70 bg-gradient-to-b from-white/90 via-white/70 to-white/50 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:from-neutral-900/90 dark:via-neutral-900/70 dark:to-neutral-950/60">
+              <div className="text-2xs flex items-center justify-between font-bold text-neutral-500 dark:text-neutral-400">
+                <span>실행 지연시간 (Latency)</span>
+                <span className="py-0.2 rounded-full bg-blue-100 px-1.5 font-mono text-[9px] text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                  TIME
                 </span>
               </div>
-              <div className="text-2xs mt-1 text-neutral-400">
+              <div className="my-2 flex items-center justify-center gap-1.5">
+                <Clock className="h-5 w-5 text-blue-500" />
+                <span className="font-mono text-lg font-black tracking-tight text-neutral-900 sm:text-2xl dark:text-neutral-50">
+                  {executionResult.latencyMs} <span className="text-xs font-normal text-neutral-400">ms</span>
+                </span>
+              </div>
+              <div className="text-2xs border-t border-white/60 pt-1.5 text-center font-semibold text-blue-600 dark:border-white/10 dark:text-blue-400">
                 {selectedTopology === 'star' ? '-70.62% 단축 (vs 토론형)' : '런타임 CPU 지연'}
               </div>
             </div>
 
-            <div className="glass-panel rounded-xl p-3.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="text-2xs font-medium text-neutral-500 dark:text-neutral-400">전송 페이로드</div>
-              <div className="mt-1 flex items-center justify-center gap-1">
-                <Zap className="h-4 w-4 text-amber-500" />
-                <span className="text-sm font-black text-neutral-900 dark:text-neutral-100">
-                  {executionResult.payloadBytes} B
+            <div className="glass-panel flex flex-col justify-between rounded-2xl border border-white/70 bg-gradient-to-b from-white/90 via-white/70 to-white/50 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:from-neutral-900/90 dark:via-neutral-900/70 dark:to-neutral-950/60">
+              <div className="text-2xs flex items-center justify-between font-bold text-neutral-500 dark:text-neutral-400">
+                <span>전송 페이로드</span>
+                <span className="py-0.2 rounded-full bg-amber-100 px-1.5 font-mono text-[9px] text-amber-700 dark:bg-amber-950 dark:text-amber-300">
+                  PAYLOAD
                 </span>
               </div>
-              <div className="text-2xs mt-1 text-neutral-400">
+              <div className="my-2 flex items-center justify-center gap-1.5">
+                <Zap className="h-5 w-5 text-amber-500" />
+                <span className="font-mono text-lg font-black tracking-tight text-neutral-900 sm:text-2xl dark:text-neutral-50">
+                  {executionResult.payloadBytes} <span className="text-xs font-normal text-neutral-400">B</span>
+                </span>
+              </div>
+              <div className="text-2xs border-t border-white/60 pt-1.5 text-center font-semibold text-amber-600 dark:border-white/10 dark:text-amber-400">
                 {selectedTopology === 'star' ? '-74.02% 절감 (vs 토론형)' : '에이전트 간 통신량'}
               </div>
             </div>
 
-            <div className="glass-panel rounded-xl p-3.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="text-2xs font-medium text-neutral-500 dark:text-neutral-400">
-                효율성 지수 (Efficiency)
+            <div className="glass-panel flex flex-col justify-between rounded-2xl border border-white/70 bg-gradient-to-b from-white/90 via-white/70 to-white/50 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:from-neutral-900/90 dark:via-neutral-900/70 dark:to-neutral-950/60">
+              <div className="text-2xs flex items-center justify-between font-bold text-neutral-500 dark:text-neutral-400">
+                <span>효율성 지수 (Efficiency)</span>
+                <span className="py-0.2 rounded-full bg-purple-100 px-1.5 font-mono text-[9px] text-purple-700 dark:bg-purple-950 dark:text-purple-300">
+                  SCORE
+                </span>
               </div>
-              <div className="mt-1 flex items-center justify-center gap-1">
-                <Sparkles className="h-4 w-4 text-purple-500" />
-                <span className="text-sm font-black text-neutral-900 dark:text-neutral-100">
+              <div className="my-2 flex items-center justify-center gap-1.5">
+                <Sparkles className="h-5 w-5 text-purple-500" />
+                <span className="font-mono text-lg font-black tracking-tight text-neutral-900 sm:text-2xl dark:text-neutral-50">
                   {executionResult.efficiencyScore.toLocaleString()}
                 </span>
               </div>
-              <div className="text-2xs mt-1 text-neutral-400">(통과율 / 지연시간)</div>
+              <div className="text-2xs border-t border-white/60 pt-1.5 text-center font-semibold text-purple-600 dark:border-white/10 dark:text-purple-400">
+                (통과율 / 실행 지연시간)
+              </div>
             </div>
           </div>
 
@@ -1182,37 +1226,54 @@ export const ResearchPaperApp: React.FC = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {/* Before Code */}
-              <div className="glass-panel rounded-xl border border-red-300/60 bg-red-50/50 p-3.5 dark:border-red-900/50 dark:bg-red-950/30">
-                <div className="text-2xs flex items-center justify-between pb-2 font-bold text-red-700 dark:text-red-400">
-                  <span>[Before] 1차 초안 코드 (얕은 검토 / 결함 내포)</span>
-                  <span className="rounded-md border border-red-200/80 bg-red-100/80 px-1.5 py-0.5 text-[10px] backdrop-blur-xs dark:border-red-800 dark:bg-red-900/60">
-                    오류 발생
+              <div className="glass-panel overflow-hidden rounded-2xl border-2 border-red-300/80 bg-gradient-to-b from-red-50/70 to-rose-50/40 p-4 shadow-sm dark:border-red-900/60 dark:from-red-950/40 dark:to-neutral-950/40">
+                <div className="flex items-center justify-between border-b border-red-200/80 pb-3 text-xs font-bold dark:border-red-900/60">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1" aria-hidden="true">
+                      <span className="h-2 w-2 rounded-full bg-red-400" />
+                      <span className="h-2 w-2 rounded-full bg-amber-400" />
+                      <span className="h-2 w-2 rounded-full bg-neutral-300 dark:bg-neutral-600" />
+                    </div>
+                    <span className="font-mono text-[11px] text-red-900 dark:text-red-200">[Before] 1차 초안 코드</span>
+                  </div>
+                  <span className="rounded-md border border-red-300 bg-red-100 px-2 py-0.5 text-[10px] font-black text-red-800 dark:border-red-800 dark:bg-red-900/80 dark:text-red-200">
+                    결함 내포 (FAIL)
                   </span>
                 </div>
-                <pre className="overflow-x-auto rounded-lg border border-white/10 bg-neutral-950/90 p-3 font-mono text-xs leading-relaxed text-red-300 backdrop-blur-md">
+                <pre className="mt-3 overflow-x-auto rounded-xl border border-white/10 bg-neutral-950/95 p-3.5 font-mono text-xs leading-relaxed text-red-300 shadow-inner backdrop-blur-md">
                   <code>{currentPreset.initialCode}</code>
                 </pre>
               </div>
 
               {/* After Healed Code */}
-              <div className="glass-panel rounded-xl border border-emerald-300/60 bg-emerald-50/50 p-3.5 dark:border-emerald-900/50 dark:bg-emerald-950/30">
-                <div className="text-2xs flex items-center justify-between pb-2 font-bold text-emerald-700 dark:text-emerald-400">
-                  <span>[After] 자가 치유 최적 패치 (단위 테스트 100% 통과)</span>
-                  <span className="rounded-md border border-emerald-200/80 bg-emerald-100/80 px-1.5 py-0.5 text-[10px] backdrop-blur-xs dark:border-emerald-800 dark:bg-emerald-900/60">
-                    교정 완료
+              <div className="glass-glow-emerald glass-panel overflow-hidden rounded-2xl border-2 border-emerald-400/80 bg-gradient-to-b from-emerald-50/70 to-teal-50/40 p-4 shadow-md dark:border-emerald-700/80 dark:from-emerald-950/40 dark:to-neutral-950/40">
+                <div className="flex items-center justify-between border-b border-emerald-200/80 pb-3 text-xs font-bold dark:border-emerald-900/60">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1" aria-hidden="true">
+                      <span className="h-2 w-2 rounded-full bg-red-400" />
+                      <span className="h-2 w-2 rounded-full bg-amber-400" />
+                      <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                    </div>
+                    <span className="font-mono text-[11px] text-emerald-900 dark:text-emerald-200">
+                      [After] 100% 자가 치유 패치
+                    </span>
+                  </div>
+                  <span className="rounded-md border border-emerald-300 bg-emerald-100 px-2 py-0.5 text-[10px] font-black text-emerald-800 dark:border-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-200">
+                    전수 통과 (100% PASS)
                   </span>
                 </div>
-                <pre className="overflow-x-auto rounded-lg border border-white/10 bg-neutral-950/90 p-3 font-mono text-xs leading-relaxed text-emerald-300 backdrop-blur-md">
+                <pre className="mt-3 overflow-x-auto rounded-xl border border-white/10 bg-neutral-950/95 p-3.5 font-mono text-xs leading-relaxed text-emerald-300 shadow-inner backdrop-blur-md">
                   <code>{currentPreset.healedCode}</code>
                 </pre>
               </div>
             </div>
 
-            <p className="text-2xs text-neutral-500 dark:text-neutral-400">
-              * 자가 치유 메커니즘: {currentPreset.healingExplanation}
-            </p>
+            <div className="text-2xs rounded-xl border border-white/70 bg-white/60 p-3 leading-relaxed text-neutral-600 dark:border-white/10 dark:bg-black/40 dark:text-neutral-400">
+              <strong className="font-bold text-blue-600 dark:text-blue-400">* 자가 치유 메커니즘:</strong>{' '}
+              {currentPreset.healingExplanation}
+            </div>
           </div>
         </section>
 
@@ -1223,8 +1284,8 @@ export const ResearchPaperApp: React.FC = () => {
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>
-              <strong>데이터 안전 규격 준수:</strong> 본 애플리케이션의 모든 알고리즘 데이터는 공인 벤치마크 예시
-              데이터이며 실제 개인정보 및 API Secret이 0건입니다 (BRB-C06, BRB-C07, BRB-C12).
+              <strong>데이터 안전 규격 준수:</strong> 본 애플리케이션의 모든 알고리즘 및 시뮬레이션 데이터는 공개
+              벤치마크 예시 데이터이며 실제 개인정보 및 API Secret이 0건입니다 (BRB-C06, BRB-C07, BRB-C12).
             </span>
           </div>
           <div className="flex items-center gap-2">

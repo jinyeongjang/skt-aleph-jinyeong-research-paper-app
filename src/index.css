@@ -125,6 +125,46 @@ html.dark .glass-pill {
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+/* 테크 회로 & 그리드 패턴 백그라운드 */
+.tech-grid-bg {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+html.dark .tech-grid-bg {
+  background-image: radial-gradient(rgba(96, 165, 250, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* 프리미엄 글로우 효과 */
+.glass-glow-blue {
+  box-shadow:
+    0 12px 36px -8px rgba(37, 99, 235, 0.18),
+    0 0 0 1px rgba(59, 130, 246, 0.4),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+html.dark .glass-glow-blue {
+  box-shadow:
+    0 16px 40px -8px rgba(59, 130, 246, 0.25),
+    0 0 0 1px rgba(96, 165, 250, 0.5),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-glow-emerald {
+  box-shadow:
+    0 12px 36px -8px rgba(16, 185, 129, 0.18),
+    0 0 0 1px rgba(16, 185, 129, 0.4),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+html.dark .glass-glow-emerald {
+  box-shadow:
+    0 16px 40px -8px rgba(16, 185, 129, 0.25),
+    0 0 0 1px rgba(52, 211, 153, 0.5),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.15);
+}
+
 /* 다크 모드 종합 스타일 규격 */
 html.dark .bg-white {
   background-color: #171717;
