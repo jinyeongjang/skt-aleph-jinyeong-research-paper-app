@@ -1,7 +1,7 @@
 // src/components/TopologyComparisonView.tsx
 import React, { useState } from 'react';
 import { TOPOLOGIES_DETAIL, type TopologyDetail } from '../data/realLifeData';
-import { Sparkles, Check, ArrowRight, ImageIcon, Clock, Zap, TrendingUp } from 'lucide-react';
+import { Sparkles, Check, ArrowRight, ImageIcon, Clock, Zap, TrendingUp, Maximize2, Minimize2 } from 'lucide-react';
 
 interface TopologyComparisonViewProps {
   selectedTopology: 'linear' | 'star' | 'mesh' | 'tree';
@@ -13,6 +13,7 @@ export const TopologyComparisonView: React.FC<TopologyComparisonViewProps> = ({
   onSelectTopology,
 }) => {
   const [activeImageType, setActiveImageType] = useState<'empirical' | 'ai'>('empirical');
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   const topologies: TopologyDetail[] = [
     TOPOLOGIES_DETAIL.linear,
@@ -33,9 +34,9 @@ export const TopologyComparisonView: React.FC<TopologyComparisonViewProps> = ({
 
   return (
     <section aria-labelledby="comparison-heading" className="space-y-7">
-      {/* 1. 상단 직관 비교 이미지 영역 (크기 대폭 확대 및 가독성 극대화) */}
-      <div className="overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-900 shadow-xl dark:border-neutral-800">
-        {/* 상단 툴바: 제목 & 간결한 뷰 전환 */}
+      {/* 1. 상단 직관 비교 이미지 영역 (초대형 풀 와이드 렌더링) */}
+      <div className="overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-900 shadow-2xl dark:border-neutral-800">
+        {/* 상단 툴바: 제목 & 뷰 전환 & 크기 확대 토글 */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-neutral-950 px-5 py-4">
           <div className="flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-600/30 text-blue-400">
@@ -51,39 +52,56 @@ export const TopologyComparisonView: React.FC<TopologyComparisonViewProps> = ({
             </div>
           </div>
 
-          {/* 뷰 모드 토글 (버튼 크기 및 폰트 확대) */}
-          <div className="flex items-center rounded-xl border border-neutral-800 bg-neutral-900 p-1 text-xs font-bold sm:text-sm">
+          <div className="flex items-center gap-2">
+            {/* 뷰 모드 토글 */}
+            <div className="flex items-center rounded-xl border border-neutral-800 bg-neutral-900 p-1 text-xs font-bold sm:text-sm">
+              <button
+                type="button"
+                onClick={() => setActiveImageType('empirical')}
+                className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 transition-colors ${
+                  activeImageType === 'empirical'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <ImageIcon className="h-4 w-4" />
+                <span>실측 인포그래픽</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveImageType('ai')}
+                className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 transition-colors ${
+                  activeImageType === 'ai' ? 'bg-blue-600 text-white shadow-xs' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Sparkles className="h-4 w-4 text-cyan-400" />
+                <span>AI 블루프린트</span>
+              </button>
+            </div>
+
+            {/* 초대형 확대/축소 토글 버튼 */}
             <button
               type="button"
-              onClick={() => setActiveImageType('empirical')}
-              className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 transition-colors ${
-                activeImageType === 'empirical'
-                  ? 'bg-blue-600 text-white shadow-xs'
-                  : 'text-neutral-400 hover:text-white'
-              }`}
+              onClick={() => setIsZoomed(!isZoomed)}
+              title={isZoomed ? '기본 화면 맞춤' : '초대형 125% 와이드 확대'}
+              className="flex items-center gap-1.5 rounded-xl border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-xs font-bold text-neutral-300 transition-colors hover:border-neutral-700 hover:bg-neutral-800 hover:text-white sm:text-sm"
             >
-              <ImageIcon className="h-4 w-4" />
-              <span>실측 인포그래픽</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveImageType('ai')}
-              className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 transition-colors ${
-                activeImageType === 'ai' ? 'bg-blue-600 text-white shadow-xs' : 'text-neutral-400 hover:text-white'
-              }`}
-            >
-              <Sparkles className="h-4 w-4 text-cyan-400" />
-              <span>AI 블루프린트</span>
+              {isZoomed ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4 text-blue-400" />}
+              <span className="hidden sm:inline">{isZoomed ? '화면 맞춤' : '초대형 확대'}</span>
             </button>
           </div>
         </div>
 
-        {/* 상단 다이어그램 이미지 (높이와 폭을 대폭 확대하여 텍스트/화살표 가독성 극대화) */}
-        <div className="relative flex items-center justify-center bg-black/70 p-3 sm:p-5 lg:p-7">
+        {/* 상단 다이어그램 이미지 (높이 제한 없이 풀 와이드 100% 가득 채움) */}
+        <div
+          className={`relative flex items-center justify-center overflow-x-auto bg-black/80 p-2 transition-all duration-300 sm:p-4 lg:p-6`}
+        >
           <img
             src={currentImageSrc}
             alt={currentImageAlt}
-            className="max-h-[580px] w-full rounded-2xl object-contain shadow-2xl transition-opacity duration-300 sm:max-h-[660px] lg:max-h-[720px]"
+            className={`h-auto w-full rounded-2xl shadow-2xl transition-all duration-300 ${
+              isZoomed ? 'min-w-[1250px] scale-100' : 'max-w-full'
+            }`}
             loading="eager"
           />
         </div>

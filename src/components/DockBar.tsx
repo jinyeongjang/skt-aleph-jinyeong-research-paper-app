@@ -55,28 +55,29 @@ export const DockBar: React.FC<DockBarProps> = ({ onRunSimulation, onTriggerInva
     <aside aria-label="빠른 실행 및 네비게이션 독바" className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 px-2">
       <div className="glass-dock flex items-center gap-1.5 rounded-2xl p-1.5 transition-all duration-200 sm:gap-2 sm:p-2">
         {/* Step 1: 문제/코드 */}
+        {/* Step 1: 토폴로지 선택 */}
         <button
           type="button"
           onClick={() => scrollToSection('step-1')}
-          title="1단계: 문제 및 코드 선택"
-          className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent text-neutral-600 transition-all duration-200 hover:-translate-y-1 hover:border-white/60 hover:bg-white/60 hover:text-blue-600 hover:shadow-xs focus-visible:ring-2 focus-visible:ring-blue-600 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/10 dark:hover:text-blue-400"
-        >
-          <Code2 className="h-4 w-4 transition-transform group-hover:scale-110" />
-          <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 rounded-lg bg-neutral-900/90 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap text-white opacity-0 shadow-md backdrop-blur-md transition-opacity group-hover:opacity-100 dark:bg-neutral-100/90 dark:text-neutral-900">
-            1. 문제 & 코드
-          </span>
-        </button>
-
-        {/* Step 2: 토폴로지 실행 */}
-        <button
-          type="button"
-          onClick={() => scrollToSection('step-2')}
-          title="2단계: 협업 토폴로지 선택"
+          title="1단계: 4대 협업 토폴로지 선택"
           className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent text-neutral-600 transition-all duration-200 hover:-translate-y-1 hover:border-white/60 hover:bg-white/60 hover:text-blue-600 hover:shadow-xs focus-visible:ring-2 focus-visible:ring-blue-600 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/10 dark:hover:text-blue-400"
         >
           <Share2 className="h-4 w-4 transition-transform group-hover:scale-110" />
           <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 rounded-lg bg-neutral-900/90 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap text-white opacity-0 shadow-md backdrop-blur-md transition-opacity group-hover:opacity-100 dark:bg-neutral-100/90 dark:text-neutral-900">
-            2. 토폴로지 선택
+            1. 토폴로지 선택
+          </span>
+        </button>
+
+        {/* Step 2: 실생활 문제 & 코드 선택 */}
+        <button
+          type="button"
+          onClick={() => scrollToSection('step-2')}
+          title="2단계: 실생활 서비스 & 코드 선택"
+          className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent text-neutral-600 transition-all duration-200 hover:-translate-y-1 hover:border-white/60 hover:bg-white/60 hover:text-blue-600 hover:shadow-xs focus-visible:ring-2 focus-visible:ring-blue-600 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/10 dark:hover:text-blue-400"
+        >
+          <Code2 className="h-4 w-4 transition-transform group-hover:scale-110" />
+          <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 rounded-lg bg-neutral-900/90 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap text-white opacity-0 shadow-md backdrop-blur-md transition-opacity group-hover:opacity-100 dark:bg-neutral-100/90 dark:text-neutral-900">
+            2. 문제 & 코드
           </span>
         </button>
 

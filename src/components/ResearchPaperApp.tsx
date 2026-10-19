@@ -21,11 +21,8 @@ import {
   Copy,
   Check,
   Building2,
-  SlidersHorizontal,
   FolderGit2,
   Activity,
-  ChevronDown,
-  ChevronUp,
 } from 'lucide-react';
 import { DockBar } from './DockBar';
 import { REAL_WORLD_PRESETS } from '../data/realLifeData';
@@ -246,7 +243,6 @@ export const ResearchPaperApp: React.FC = () => {
   const [mainViewMode, setMainViewMode] = useState<'real-world' | 'network-graph' | 'compare-matrix' | 'code-tests'>(
     'real-world',
   );
-  const [isBriefingOpen, setIsBriefingOpen] = useState<boolean>(true);
   const [customCode, setCustomCode] = useState<string>('');
   const [isCustomMode, setIsCustomMode] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -505,273 +501,89 @@ export const ResearchPaperApp: React.FC = () => {
       className="glass-panel-elevated relative overflow-hidden rounded-3xl border border-white/80 bg-white/60 pb-28 shadow-2xl backdrop-blur-2xl sm:pb-32 dark:border-white/10 dark:bg-black/60"
     >
       {/* ============================================================== */}
-      {/* 0. 스튜디오 마스터 윈도우 크롬 & 글로벌 툴바 (Studio Window Chrome) */}
+      {/* 1. 심플하고 세련된 헤더 & 논문 명세 (Hero Section · BRB-C01, BRB-C03) */}
       {/* ============================================================== */}
-      <header className="border-b border-white/60 bg-white/70 px-4 py-3 backdrop-blur-xl sm:px-6 dark:border-white/10 dark:bg-black/60">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* 좌측: macOS 점 3개 및 스튜디오 타이틀 */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5" aria-hidden="true">
-              <span className="h-3 w-3 rounded-full border border-[#e0443e] bg-[#ff5f56] shadow-2xs" />
-              <span className="h-3 w-3 rounded-full border border-[#dea123] bg-[#ffbd2e] shadow-2xs" />
-              <span className="h-3 w-3 rounded-full border border-[#1aab29] bg-[#27c93f] shadow-2xs" />
-            </div>
-
-            <div className="h-4 w-px bg-neutral-300 dark:bg-neutral-700" />
-
-            <div className="flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-600 text-white shadow-xs">
-                <Cpu className="h-3.5 w-3.5" />
-              </div>
-              <span className="font-mono text-xs font-black tracking-tight text-neutral-900 dark:text-neutral-100">
-                TopologyHeal Studio
-              </span>
-              <span className="py-0.2 rounded-md bg-blue-100 px-1.5 font-mono text-[10px] font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-                v2.5 PRO
-              </span>
-            </div>
-          </div>
-
-          {/* 중앙: 스튜디오 4대 워크스페이스 세그먼트 탭 */}
-          <nav
-            aria-label="스튜디오 워크스페이스 탭"
-            className="flex items-center gap-1 rounded-2xl border border-white/70 bg-white/80 p-1 shadow-xs backdrop-blur-xl dark:border-white/10 dark:bg-black/70"
-          >
-            <button
-              type="button"
-              onClick={() => setMainViewMode('real-world')}
-              className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
-                mainViewMode === 'real-world'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
-                  : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
-              }`}
-            >
-              <Building2 className="h-3.5 w-3.5" />
-              <span>🎯 실생활 인스펙터</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setMainViewMode('network-graph')}
-              className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
-                mainViewMode === 'network-graph'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
-                  : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
-              }`}
-            >
-              <Activity className="h-3.5 w-3.5" />
-              <span>⚡ 에이전트 네트워크</span>
-            </button>
-
-            <a
-              href="#step-2"
-              className="text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-bold text-neutral-600 transition-all duration-200 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
-            >
-              <SlidersHorizontal className="h-3.5 w-3.5" />
-              <span>📊 4대 토폴로지 비교</span>
-            </a>
-
-            <button
-              type="button"
-              onClick={() => setMainViewMode('code-tests')}
-              className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
-                mainViewMode === 'code-tests'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
-                  : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
-              }`}
-            >
-              <Code2 className="h-3.5 w-3.5" />
-              <span>💻 코드 & Diff</span>
-            </button>
-          </nav>
-
-          {/* 우측: 텔레메트리 뱃지 & 마스터 런 버튼 */}
-          <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 sm:inline-flex dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-              <span>ENGINE READY</span>
-            </span>
-
-            <button
-              type="button"
-              onClick={handleRunApp}
-              disabled={isRunning}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-blue-400/50 bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-1.5 text-xs font-black text-white shadow-md shadow-blue-500/25 transition-all hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50"
-            >
-              {isRunning ? (
-                <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Play className="h-3.5 w-3.5 fill-white" />
-              )}
-              <span>{isRunning ? '치유 연산 중...' : '자가 치유 실행 (Run)'}</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
       <div className="space-y-6 p-4 sm:p-6 lg:p-8">
-        {/* ============================================================== */}
-        {/* 1. BRB-C01, BRB-C03: 스튜디오 브리핑 패널 (논문 명세 및 역할 1문장) */}
-        {/* ============================================================== */}
-        <section
-          aria-labelledby="briefing-heading"
-          className="glass-panel relative overflow-hidden rounded-2xl border border-blue-200/70 bg-gradient-to-r from-blue-50/80 via-indigo-50/50 to-white/80 p-4 sm:p-5 dark:border-blue-900/50 dark:from-blue-950/40 dark:via-indigo-950/20 dark:to-neutral-900/40"
-        >
-          <div className="flex items-center justify-between border-b border-blue-200/60 pb-2.5 dark:border-blue-900/40">
-            <div className="flex items-center gap-2">
-              <span className="text-2xs inline-flex items-center gap-1.5 rounded-full border border-blue-300/80 bg-blue-100/90 px-2.5 py-0.5 font-extrabold text-blue-800 dark:border-blue-700 dark:bg-blue-900/80 dark:text-blue-200">
-                <Sparkles className="h-3 w-3 text-blue-600 dark:text-blue-300" />
+        <header className="glass-panel relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-gradient-to-r from-blue-50/90 via-indigo-50/50 to-white/90 p-5 shadow-lg sm:p-7 dark:border-neutral-800 dark:from-neutral-900/90 dark:via-neutral-900/60 dark:to-neutral-950/80">
+          {/* 상단 뱃지 및 다운로드 링크 바 */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-4 dark:border-neutral-800">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-300/80 bg-blue-100/90 px-3 py-1 text-xs font-black text-blue-800 dark:border-blue-700 dark:bg-blue-900/80 dark:text-blue-200">
+                <Sparkles className="h-3.5 w-3.5 text-blue-600 dark:text-blue-300" />
                 <span>마지막 과제 BR-B · 논문을 반영한 실전 스튜디오</span>
               </span>
-              <span className="font-mono text-[10px] text-neutral-500 dark:text-neutral-400">
-                Open Access · CC BY 4.0
+              <span className="font-mono text-xs text-neutral-500 dark:text-neutral-400">Open Access · CC BY 4.0</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <a
+                href="downloads/skt-aleph-jinyeong-research-paper.docx"
+                download="skt-aleph-jinyeong-research-paper.docx"
+                className="inline-flex items-center gap-1 rounded-xl bg-neutral-900 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-neutral-800 dark:bg-white dark:text-neutral-900"
+              >
+                <Download className="h-3.5 w-3.5" />
+                <span>DOCX 논문</span>
+              </a>
+              <a
+                href="downloads/research-reproduction-package.zip"
+                download="research-reproduction-package.zip"
+                className="inline-flex items-center gap-1 rounded-xl border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-800 shadow-xs hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
+              >
+                <Download className="h-3.5 w-3.5" />
+                <span>재현 ZIP</span>
+              </a>
+              <a
+                href="https://github.com/jinyeongjang/skt-aleph-jinyeong-research-paper-app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+              >
+                <FolderGit2 className="h-3.5 w-3.5" />
+                <span>GitHub</span>
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+          </div>
+
+          {/* 메인 논문 타이틀 (단일 h1 준수) */}
+          <div className="mt-4 space-y-1.5">
+            <h1 className="text-lg font-black tracking-tight text-neutral-900 sm:text-2xl lg:text-3xl dark:text-neutral-50">
+              알고리즘 문제 해결 및 단위 테스트 검증에서 다중 에이전트 협업 토폴로지(순차형 vs 중앙 조율형 vs 토론형 vs
+              계층형)의 테스트 통과율 및 실행 지연시간 비교 실증
+            </h1>
+            <p className="text-xs text-neutral-600 italic sm:text-sm dark:text-neutral-400">
+              Empirical Evaluation of Test Pass Rate and Execution Latency Across Multi-Agent Collaboration Topologies
+              in Algorithmic Problem Solving and Unit Test Verification
+            </p>
+          </div>
+
+          {/* 저자 및 교육 과정 */}
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-neutral-600 sm:text-sm dark:text-neutral-400">
+            <span className="font-bold text-neutral-900 dark:text-neutral-100">연구자: 장진영 (Jinyeong Jang)</span>
+            <span>•</span>
+            <span>SKT ALEPH 1기 인공지능 엔지니어링 과정</span>
+          </div>
+
+          {/* 앱의 대상과 역할 1문장 (BRB-C01, BRB-C03) & 동료 감상 (BRB-C11) */}
+          <div className="mt-4 space-y-2.5 rounded-2xl border border-blue-200/80 bg-white/90 p-4 shadow-xs dark:border-blue-900/60 dark:bg-neutral-900/80">
+            <div className="flex items-start gap-2.5">
+              <Cpu className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
+              <p className="text-xs leading-relaxed font-bold text-neutral-900 sm:text-sm dark:text-neutral-100">
+                &ldquo;소프트웨어 개발자 및 알고리즘 학습자가 복잡한 코드의 엣지 결함을 검증할 때, 본 앱은 논문에서
+                실증된 &lsquo;중앙 조율형(Star) 엣지 케이스 자가 치유 피드백 루프&rsquo;를 적용하여 연쇄 오류를 차단하고
+                최소한의 지연시간과 통신 오버헤드로 단위 테스트(assert)를 100% 자동 교정하도록 돕습니다.&rdquo;
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 border-t border-neutral-100 pt-2 text-xs text-amber-800 italic dark:border-neutral-800 dark:text-amber-300">
+              <MessageSquare className="h-3.5 w-3.5 shrink-0 text-amber-600" />
+              <span>
+                <strong>동료 감상:</strong> &ldquo;논문에서 말한 순차형의 연쇄 오류와 중앙 조율형의 엣지 자가치유 차이를
+                1분 만에 체감할 수 있어 매우 직관적입니다.&rdquo;
               </span>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setIsBriefingOpen(!isBriefingOpen)}
-              className="text-2xs flex items-center gap-1 text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
-            >
-              <span>{isBriefingOpen ? '브리핑 접기' : '논문 브리핑 열기'}</span>
-              {isBriefingOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
-            </button>
           </div>
-
-          {isBriefingOpen && (
-            <div className="mt-3 space-y-3">
-              {/* 논문 제목 (h1 단일 계층 준수 · BRB-C03, T01-C15) */}
-              <header className="space-y-1">
-                <h1 className="text-base font-black tracking-tight text-neutral-900 sm:text-xl lg:text-2xl dark:text-neutral-50">
-                  알고리즘 문제 해결 및 단위 테스트 검증에서 다중 에이전트 협업 토폴로지(순차형 vs 중앙 조율형 vs 토론형
-                  vs 계층형)의 테스트 통과율 및 실행 지연시간 비교 실증
-                </h1>
-                <p className="text-2xs text-neutral-600 italic sm:text-xs dark:text-neutral-400">
-                  Empirical Evaluation of Test Pass Rate and Execution Latency Across Multi-Agent Collaboration
-                  Topologies in Algorithmic Problem Solving and Unit Test Verification
-                </p>
-              </header>
-
-              {/* 저자 메타데이터 & 산출물 다운로드 */}
-              <div className="flex flex-wrap items-center justify-between gap-2.5 rounded-xl border border-white/80 bg-white/60 px-3.5 py-2 text-xs backdrop-blur-md dark:border-white/10 dark:bg-black/30">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-extrabold text-neutral-900 dark:text-neutral-100">장진영 (Jinyeong Jang)</span>
-                  <span className="text-neutral-400">|</span>
-                  <span className="text-neutral-600 dark:text-neutral-400">SKT ALEPH 1기 인공지능 엔지니어링 과정</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="downloads/skt-aleph-jinyeong-research-paper.docx"
-                    download="skt-aleph-jinyeong-research-paper.docx"
-                    className="text-2xs inline-flex items-center gap-1 rounded-lg bg-neutral-900 px-2.5 py-1 font-bold text-white shadow-2xs hover:bg-neutral-800 dark:bg-white dark:text-neutral-900"
-                  >
-                    <Download className="h-3 w-3" />
-                    <span>DOCX 논문</span>
-                  </a>
-                  <a
-                    href="downloads/research-reproduction-package.zip"
-                    download="research-reproduction-package.zip"
-                    className="text-2xs inline-flex items-center gap-1 rounded-lg border border-neutral-300 bg-white px-2.5 py-1 font-bold text-neutral-800 shadow-2xs hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
-                  >
-                    <Download className="h-3 w-3" />
-                    <span>재현 ZIP</span>
-                  </a>
-                  <a
-                    href="https://github.com/jinyeongjang/skt-aleph-jinyeong-research-paper-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-2xs ml-1 inline-flex items-center gap-1 font-bold text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
-                  >
-                    <FolderGit2 className="h-3 w-3" />
-                    <span>GitHub</span>
-                    <ExternalLink className="h-2.5 w-2.5" />
-                  </a>
-                </div>
-              </div>
-
-              {/* BRB-C01 & BRB-C03: 앱의 대상과 역할 1문장 */}
-              <div className="glass-panel rounded-xl border border-blue-300/80 bg-white/90 p-3.5 shadow-xs dark:border-blue-800/60 dark:bg-neutral-900/70">
-                <div className="flex items-start gap-2.5">
-                  <Cpu className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
-                  <div>
-                    <span className="text-[10px] font-black text-blue-700 uppercase dark:text-blue-300">
-                      [앱의 대상과 핵심 역할 · BRB-C01 1문장 정의]
-                    </span>
-                    <p className="mt-0.5 text-xs leading-relaxed font-extrabold text-neutral-900 sm:text-sm dark:text-neutral-50">
-                      &ldquo;소프트웨어 개발자 및 알고리즘 학습자가 복잡한 코드의 엣지 결함을 검증할 때, 본 앱은
-                      논문에서 실증된 &lsquo;중앙 조율형(Star) 엣지 케이스 자가 치유 피드백 루프&rsquo;를 적용하여 연쇄
-                      오류를 차단하고 최소한의 지연시간과 통신 오버헤드로 단위 테스트(assert)를 100% 자동 교정하도록
-                      돕습니다.&rdquo;
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* BRB-C11: 동료 감상 한 줄 */}
-              <div className="text-2xs flex items-center gap-2 rounded-xl border border-amber-200/70 bg-amber-50/70 px-3.5 py-1.5 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200">
-                <MessageSquare className="h-3.5 w-3.5 shrink-0 text-amber-600" />
-                <span className="italic">
-                  <strong>동료 교육생의 한 줄 감상:</strong> &ldquo;논문에서 말한 순차형의 얕은 검토로 인한 연쇄 오류와
-                  중앙 조율형의 엣지 피드백 자가 교정의 차이를 직접 코드를 넣어보며 1분 만에 체감할 수 있어서 매우
-                  직관적이었습니다.&rdquo;
-                </span>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* ============================================================== */}
-        {/* 2. BRB-C02: 스튜디오 1분 퀵스타트 안내 바 */}
-        {/* ============================================================== */}
-        <section aria-labelledby="guide-heading" className="space-y-2">
-          <div className="flex items-center justify-between">
-            <h2
-              id="guide-heading"
-              className="text-xs font-black tracking-wider text-neutral-800 uppercase dark:text-neutral-200"
-            >
-              🚀 스튜디오 3단계 사용 가이드 (1분 완주 · BRB-C02)
-            </h2>
-            <span className="text-2xs text-neutral-500">Step 1 ➡️ Step 2 ➡️ Step 3</span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-            <div className="glass-panel rounded-xl border-white/70 bg-white/70 p-3 dark:border-white/10 dark:bg-black/40">
-              <div className="flex items-center gap-2 text-xs font-black text-neutral-900 dark:text-neutral-100">
-                <span className="flex h-5 w-5 items-center justify-center rounded-lg bg-blue-600 text-[11px] font-bold text-white">
-                  1
-                </span>
-                <span>실생활 문제 & 코드 선택</span>
-              </div>
-              <p className="text-2xs mt-1 text-neutral-600 dark:text-neutral-400">
-                좌측 패널에서 쇼핑몰 결제, 출입 게이트 등 실생활 서비스 4종 중 하나를 고릅니다.
-              </p>
-            </div>
-
-            <div className="glass-panel rounded-xl border-white/70 bg-white/70 p-3 dark:border-white/10 dark:bg-black/40">
-              <div className="flex items-center gap-2 text-xs font-black text-neutral-900 dark:text-neutral-100">
-                <span className="flex h-5 w-5 items-center justify-center rounded-lg bg-blue-600 text-[11px] font-bold text-white">
-                  2
-                </span>
-                <span>토폴로지 선택 & 실행</span>
-              </div>
-              <p className="text-2xs mt-1 text-neutral-600 dark:text-neutral-400">
-                순차형(공장 벨트), 중앙 조율형(수술실 집도의) 중 선택 후 [자가 치유 실행]을 누릅니다.
-              </p>
-            </div>
-
-            <div className="glass-panel rounded-xl border-white/70 bg-white/70 p-3 dark:border-white/10 dark:bg-black/40">
-              <div className="flex items-center gap-2 text-xs font-black text-neutral-900 dark:text-neutral-100">
-                <span className="flex h-5 w-5 items-center justify-center rounded-lg bg-blue-600 text-[11px] font-bold text-white">
-                  3
-                </span>
-                <span>결과 지표 & 패치 Diff 확인</span>
-              </div>
-              <p className="text-2xs mt-1 text-neutral-600 dark:text-neutral-400">
-                통과율, 지연시간, 통신량과 자동으로 교정된 100% 자가 치유 패치 Diff를 확인합니다.
-              </p>
-            </div>
-          </div>
-        </section>
+        </header>
 
         {/* 검증 에러 안내 배너 (안전 가드레일 · BRB-C05) */}
         {validationError && (
@@ -782,55 +594,42 @@ export const ResearchPaperApp: React.FC = () => {
         )}
 
         {/* ============================================================== */}
-        {/* 상단 인터랙티브 플로우 길잡이 칩스 (Live Status Breadcrumb) */}
-        {/* ============================================================== */}
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/80 bg-white/70 p-3.5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-black/40">
-          <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="flex items-center gap-1 font-black text-neutral-700 dark:text-neutral-300">
-              <Sparkles className="h-3.5 w-3.5 text-blue-500" />
-              <span>현재 구성:</span>
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50/90 px-2.5 py-1 font-bold text-blue-800 dark:border-blue-900 dark:bg-blue-950/70 dark:text-blue-200">
-              <span className="text-[10px] text-blue-500">1단계</span>
-              <span>{isCustomMode ? '직접 코드 입력' : currentRealWorldPreset.realLifeTitle}</span>
-            </span>
-            <ArrowRight className="h-3 w-3 text-neutral-400" />
-            <span className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-indigo-50/90 px-2.5 py-1 font-bold text-indigo-800 dark:border-indigo-900 dark:bg-indigo-950/70 dark:text-indigo-200">
-              <span className="text-[10px] text-indigo-500">2단계</span>
-              <span>
-                {selectedTopology === 'star'
-                  ? '⭐ 중앙 조율형 (Star 추천)'
-                  : selectedTopology === 'linear'
-                    ? '🏭 순차형 (Linear)'
-                    : selectedTopology === 'mesh'
-                      ? '🗣️ 토론형 (Mesh)'
-                      : '🏢 계층형 (Tree)'}
-              </span>
-            </span>
-            <ArrowRight className="h-3 w-3 text-neutral-400" />
-            <span
-              className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 font-bold ${
-                executionResult.status === 'PASS'
-                  ? 'border-emerald-300 bg-emerald-50/90 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/70 dark:text-emerald-200'
-                  : 'border-red-300 bg-red-50/90 text-red-800 dark:border-red-900 dark:bg-red-950/70 dark:text-red-200'
-              }`}
-            >
-              <span className="text-[10px]">3단계 결과</span>
-              <span>{executionResult.status === 'PASS' ? '✅ 100% 자가 치유 완료' : '⚠️ 결함 검출 (치유 필요)'}</span>
-            </span>
-          </div>
-
-          <div className="text-2xs flex items-center gap-2 font-mono font-bold text-neutral-500 dark:text-neutral-400">
-            <span>지연 {executionResult.latencyMs}ms</span>
-            <span>•</span>
-            <span>통신 {executionResult.payloadBytes}B</span>
-          </div>
-        </div>
-
-        {/* ============================================================== */}
-        {/* 3. 스튜디오 1열 풀-와이드 싱글 플로우 레이아웃 (Single Column Flow) */}
+        {/* 2. 스튜디오 1열 풀-와이드 3단계 싱글 플로우 (Single Column Flow) */}
         {/* ============================================================== */}
         <div className="space-y-8">
+          {/* ========================================================== */}
+          {/* Step 1: 4대 협업 토폴로지 선택 & 직관 비교 (페이지 최상단 배치) */}
+          {/* ========================================================== */}
+          <section
+            id="step-1"
+            className="glass-panel scroll-mt-24 space-y-6 rounded-3xl border border-white/70 bg-white/70 p-6 shadow-md sm:p-7 dark:border-white/10 dark:bg-black/40"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-4 dark:border-neutral-800">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600 dark:bg-indigo-950/80 dark:text-indigo-400">
+                  <Share2 className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black text-neutral-900 uppercase sm:text-base lg:text-lg dark:text-neutral-100">
+                    Step 1 · 4대 협업 토폴로지 선택 & 직관 비교
+                  </h3>
+                  <p className="text-xs text-neutral-500 sm:text-sm dark:text-neutral-400">
+                    상단 인포그래픽과 4대 토폴로지 카드를 비교하고 원하는 구조를 선택합니다.
+                  </p>
+                </div>
+              </div>
+              <span className="rounded-full border border-blue-200 bg-blue-50/80 px-3 py-1 text-xs font-bold text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/50 dark:text-blue-300">
+                ★ 중앙 조율형(Star) 추천
+              </span>
+            </div>
+
+            {/* 직관 비교 인포그래픽 이미지 및 4대 카드 (모달 없이 상단 배치된 개선 컴포넌트) */}
+            <TopologyComparisonView
+              selectedTopology={selectedTopology}
+              onSelectTopology={(topo) => setSelectedTopology(topo)}
+            />
+          </section>
+
           {/* 친근한 1-Click 추천 체험 퀵 배너 (가로 와이드형) */}
           <div className="glass-glow-blue glass-panel flex flex-col justify-between gap-4 rounded-3xl border-2 border-blue-400/80 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 p-5 text-white shadow-xl sm:flex-row sm:items-center">
             <div className="space-y-1">
@@ -862,22 +661,22 @@ export const ResearchPaperApp: React.FC = () => {
           </div>
 
           {/* ========================================================== */}
-          {/* Step 1: 실생활 서비스 & 알고리즘 선택 (풀 와이드 4열 그리드) */}
+          {/* Step 2: 실생활 서비스 & 알고리즘 선택 및 실행                 */}
           {/* ========================================================== */}
           <section
-            id="step-1"
-            className="glass-panel scroll-mt-24 space-y-4 rounded-3xl border border-white/70 bg-white/70 p-5 shadow-sm sm:p-6 dark:border-white/10 dark:bg-black/40"
+            id="step-2"
+            className="glass-panel scroll-mt-24 space-y-5 rounded-3xl border border-white/70 bg-white/70 p-6 shadow-sm sm:p-7 dark:border-white/10 dark:bg-black/40"
           >
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-3.5 dark:border-neutral-800">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-4 dark:border-neutral-800">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-950/80 dark:text-blue-400">
                   <Code2 className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-black text-neutral-900 uppercase sm:text-sm dark:text-neutral-100">
-                    Step 1 · 실생활 서비스 & 알고리즘 선택
+                  <h3 className="text-sm font-black text-neutral-900 uppercase sm:text-base dark:text-neutral-100">
+                    Step 2 · 실생활 서비스 & 알고리즘 문제 선택
                   </h3>
-                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                  <p className="text-xs text-neutral-500 sm:text-sm dark:text-neutral-400">
                     실생활 도메인 4대 프리셋을 선택하거나 직접 코드를 입력하여 엣지 결함을 검증합니다.
                   </p>
                 </div>
@@ -957,41 +756,8 @@ export const ResearchPaperApp: React.FC = () => {
                 );
               })}
             </div>
-          </section>
 
-          {/* ========================================================== */}
-          {/* Step 2: 4대 협업 토폴로지 선택 & 직관 비교 (풀 와이드 1열)   */}
-          {/* ========================================================== */}
-          <section
-            id="step-2"
-            className="glass-panel scroll-mt-24 space-y-6 rounded-3xl border border-white/70 bg-white/70 p-6 shadow-md sm:p-7 dark:border-white/10 dark:bg-black/40"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-4 dark:border-neutral-800">
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600 dark:bg-indigo-950/80 dark:text-indigo-400">
-                  <Share2 className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-black text-neutral-900 uppercase sm:text-base lg:text-lg dark:text-neutral-100">
-                    Step 2 · 4대 협업 토폴로지 선택 & 직관 비교
-                  </h3>
-                  <p className="text-xs text-neutral-500 sm:text-sm dark:text-neutral-400">
-                    상단 인포그래픽과 4대 토폴로지 카드를 비교하고 원하는 구조를 선택한 뒤 실행합니다.
-                  </p>
-                </div>
-              </div>
-              <span className="rounded-full border border-blue-200 bg-blue-50/80 px-3 py-1 text-xs font-bold text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/50 dark:text-blue-300">
-                ★ 중앙 조율형(Star) 추천
-              </span>
-            </div>
-
-            {/* 직관 비교 인포그래픽 이미지 및 4대 카드 (모달 없이 상단 배치된 개선 컴포넌트) */}
-            <TopologyComparisonView
-              selectedTopology={selectedTopology}
-              onSelectTopology={(topo) => setSelectedTopology(topo)}
-            />
-
-            {/* 자가 치유 실행 메인 액션 버튼 (크기 및 폰트 확대) */}
+            {/* 자가 치유 실행 메인 액션 버튼 (Step 2 내부 배치) */}
             <div className="pt-2">
               <button
                 type="button"

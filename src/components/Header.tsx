@@ -14,8 +14,8 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '#step-1', label: '1. 문제/코드 선택', desc: '4대 프리셋 및 커스텀 에디터' },
-  { href: '#step-2', label: '2. 토폴로지 실행', desc: '4대 토폴로지 실시간 자가 치유' },
+  { href: '#step-1', label: '1. 토폴로지 비교', desc: '4대 구조 인포그래픽 및 선택' },
+  { href: '#step-2', label: '2. 실생활 문제/코드', desc: '4대 프리셋 및 자가 치유 가동' },
   { href: '#step-3', label: '3. 결과 및 패치 Diff', desc: '단위 테스트 및 Before/After 비교' },
 ];
 
