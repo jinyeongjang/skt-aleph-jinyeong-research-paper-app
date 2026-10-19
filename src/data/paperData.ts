@@ -133,7 +133,7 @@ export const RESEARCH_PAPER_DATA: ResearchPaperData = {
     author: '장진영',
     affiliation: 'SKT ALEPH 1기',
     date: '2026.10.01',
-    liveUrl: 'https://skt-aleph-jinyeong-research-paper.vercel.app',
+    liveUrl: 'https://skt-aleph-jinyeong-research-paper-a.vercel.app',
     githubUrl: 'https://github.com/jinyeongjang/skt-aleph-jinyeong-research-paper',
     docxDownloadUrl: '/downloads/skt-aleph-jinyeong-research-paper.docx',
     zipDownloadUrl: '/downloads/research-reproduction-package.zip',

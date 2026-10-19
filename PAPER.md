@@ -4,7 +4,7 @@
 > **저자**: 장진영 (SKT ALEPH 1기)  
 > **소속**: SKT ALEPH 1기  
 > **작성일**: 2026년 10월 1일  
-> **공개 배포 URL**: [https://skt-aleph-jinyeong-research-paper.vercel.app](https://skt-aleph-jinyeong-research-paper.vercel.app)  
+> **공개 배포 URL**: [https://skt-aleph-jinyeong-research-paper-a.vercel.app](https://skt-aleph-jinyeong-research-paper-a.vercel.app)  
 > **GitHub 소스코드**: [https://github.com/jinyeongjang/skt-aleph-jinyeong-research-paper](https://github.com/jinyeongjang/skt-aleph-jinyeong-research-paper)  
 > **다운로드**: [📄 논문 DOCX 파일 다운로드](public/downloads/skt-aleph-jinyeong-research-paper.docx) | [📦 재현 패키지 ZIP 다운로드](public/downloads/research-reproduction-package.zip)
 
