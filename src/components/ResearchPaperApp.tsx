@@ -563,18 +563,13 @@ export const ResearchPaperApp: React.FC = () => {
               <span>⚡ 에이전트 네트워크</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => setMainViewMode('compare-matrix')}
-              className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all duration-200 ${
-                mainViewMode === 'compare-matrix'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
-                  : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
-              }`}
+            <a
+              href="#step-2"
+              className="text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-bold text-neutral-600 transition-all duration-200 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
-              <span>📊 4대 구조 벤치마크</span>
-            </button>
+              <span>📊 4대 토폴로지 비교</span>
+            </a>
 
             <button
               type="button"
@@ -833,230 +828,248 @@ export const ResearchPaperApp: React.FC = () => {
         </div>
 
         {/* ============================================================== */}
-        {/* 3. 스튜디오 2컬럼 스플릿 워크스페이스 레이아웃 (Split Studio View) */}
+        {/* 3. 스튜디오 1열 풀-와이드 싱글 플로우 레이아웃 (Single Column Flow) */}
         {/* ============================================================== */}
-        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-          {/* ========================================================== */}
-          {/* 좌측 사이드바: Studio Controller & Navigator (lg:col-span-4) */}
-          {/* ========================================================== */}
-          <aside aria-label="스튜디오 컨트롤 및 설정" className="space-y-4 lg:col-span-4">
-            {/* 친근한 1-Click 추천 체험 퀵 배너 */}
-            <div className="glass-glow-blue glass-panel rounded-2xl border-2 border-blue-400/80 bg-gradient-to-r from-blue-600 to-indigo-600 p-3.5 text-white shadow-lg">
-              <div className="flex items-center justify-between">
-                <span className="text-2xs flex items-center gap-1.5 font-black tracking-wider text-blue-100 uppercase">
+        <div className="space-y-8">
+          {/* 친근한 1-Click 추천 체험 퀵 배너 (가로 와이드형) */}
+          <div className="glass-glow-blue glass-panel flex flex-col justify-between gap-4 rounded-3xl border-2 border-blue-400/80 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 p-5 text-white shadow-xl sm:flex-row sm:items-center">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-2xs inline-flex items-center gap-1.5 font-black tracking-wider text-blue-100 uppercase">
                   <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                   <span>처음 오신 분을 위한 추천 체험</span>
                 </span>
-                <span className="py-0.2 rounded-full bg-white/20 px-2 text-[9px] font-bold">1-CLICK</span>
+                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">1-CLICK</span>
               </div>
-              <p className="mt-1.5 text-xs leading-snug font-bold text-white/95">
+              <p className="text-sm font-bold text-white/95">
                 Two Sum 결제 엣지 오류 ➡️ 중앙 조율형(Star)으로 0.005초 만에 자가 치유하기
               </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedPresetId('two-sum');
-                  setSelectedTopology('star');
-                  setMainViewMode('real-world');
-                  handleRunApp();
-                }}
-                disabled={isRunning}
-                className="mt-2.5 flex w-full items-center justify-center gap-1.5 rounded-xl bg-white py-2 text-xs font-black text-blue-700 shadow-sm transition-all hover:bg-blue-50 disabled:opacity-50"
-              >
-                <Zap className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                <span>{isRunning ? '자가 치유 실행 중...' : '원클릭 추천 시뮬레이션 가동'}</span>
-              </button>
             </div>
-
-            {/* Step 1: 실생활 서비스 & 알고리즘 프리셋 목록 */}
-            <div
-              id="step-1"
-              className="glass-panel scroll-mt-24 space-y-3 rounded-2xl border border-white/70 bg-white/70 p-4 shadow-sm dark:border-white/10 dark:bg-black/40"
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedPresetId('two-sum');
+                setSelectedTopology('star');
+                setMainViewMode('real-world');
+                handleRunApp();
+              }}
+              disabled={isRunning}
+              className="flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-xs font-black text-blue-700 shadow-md transition-all hover:bg-blue-50 hover:shadow-lg disabled:opacity-50"
             >
-              <div className="flex items-center justify-between border-b border-neutral-200/60 pb-2.5 dark:border-neutral-800">
-                <div className="flex items-center gap-2">
-                  <Code2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  <span className="text-xs font-black text-neutral-900 uppercase dark:text-neutral-100">
-                    Step 1 · 실생활 서비스 선택
-                  </span>
+              <Zap className="h-4 w-4 fill-amber-500 text-amber-500" />
+              <span>{isRunning ? '자가 치유 실행 중...' : '원클릭 추천 시뮬레이션 가동'}</span>
+            </button>
+          </div>
+
+          {/* ========================================================== */}
+          {/* Step 1: 실생활 서비스 & 알고리즘 선택 (풀 와이드 4열 그리드) */}
+          {/* ========================================================== */}
+          <section
+            id="step-1"
+            className="glass-panel scroll-mt-24 space-y-4 rounded-3xl border border-white/70 bg-white/70 p-5 shadow-sm sm:p-6 dark:border-white/10 dark:bg-black/40"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-3.5 dark:border-neutral-800">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-950/80 dark:text-blue-400">
+                  <Code2 className="h-4 w-4" />
                 </div>
+                <div>
+                  <h3 className="text-xs font-black text-neutral-900 uppercase sm:text-sm dark:text-neutral-100">
+                    Step 1 · 실생활 서비스 & 알고리즘 선택
+                  </h3>
+                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    실생활 도메인 4대 프리셋을 선택하거나 직접 코드를 입력하여 엣지 결함을 검증합니다.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomMode(!isCustomMode);
+                    if (!isCustomMode) {
+                      setMainViewMode('code-tests');
+                    }
+                    setValidationError(null);
+                  }}
+                  className={`text-2xs rounded-xl border px-3 py-1.5 font-bold transition-all ${
+                    isCustomMode
+                      ? 'border-blue-500 bg-blue-50 font-black text-blue-800 dark:bg-blue-950/70 dark:text-blue-200'
+                      : 'border-dashed border-neutral-300 text-neutral-600 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-white'
+                  }`}
+                >
+                  {isCustomMode ? '프리셋 모드로 복귀' : '+ 직접 알고리즘 코드 입력하기'}
+                </button>
                 <button
                   type="button"
                   onClick={handleTriggerInvalidInputTest}
-                  className="flex items-center gap-1 text-[10px] font-bold text-red-600 hover:text-red-700 dark:text-red-400"
+                  className="text-2xs flex items-center gap-1 rounded-xl border border-red-200 bg-red-50/70 px-3 py-1.5 font-bold text-red-600 hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400"
                 >
                   <AlertTriangle className="h-3 w-3" />
                   <span>비정상 입력 테스트</span>
                 </button>
               </div>
+            </div>
 
-              {/* 4대 프리셋 목록 */}
-              <div className="space-y-2">
-                {REAL_WORLD_PRESETS.map((p) => {
-                  const isSelected = !isCustomMode && selectedPresetId === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => {
-                        setSelectedPresetId(p.id);
-                        setIsCustomMode(false);
-                        setValidationError(null);
-                      }}
-                      className={`w-full rounded-xl p-3 text-left transition-all duration-200 ${
-                        isSelected
-                          ? 'border-2 border-blue-500 bg-gradient-to-r from-blue-50/90 to-indigo-50/70 shadow-sm ring-2 ring-blue-500/20 dark:border-blue-400 dark:from-blue-950/70 dark:to-indigo-950/50'
-                          : 'border border-white/60 bg-white/50 hover:bg-white/80 dark:border-white/5 dark:bg-white/5 dark:hover:bg-white/10'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
+            {/* 4대 프리셋 가로 4열 카드 그리드 */}
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+              {REAL_WORLD_PRESETS.map((p) => {
+                const isSelected = !isCustomMode && selectedPresetId === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedPresetId(p.id);
+                      setIsCustomMode(false);
+                      setValidationError(null);
+                    }}
+                    className={`flex flex-col justify-between rounded-2xl p-4 text-left transition-all duration-200 ${
+                      isSelected
+                        ? 'border-2 border-blue-500 bg-gradient-to-b from-blue-50/90 to-indigo-50/70 shadow-md ring-2 ring-blue-500/20 dark:border-blue-400 dark:from-blue-950/70 dark:to-indigo-950/50'
+                        : 'border border-neutral-200/80 bg-white/70 hover:border-neutral-300 hover:bg-white/95 dark:border-white/10 dark:bg-neutral-900/60 dark:hover:border-neutral-700'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between border-b border-neutral-200/50 pb-2 dark:border-neutral-800">
                         <span className="font-mono text-[10px] font-black text-blue-600 dark:text-blue-400">
                           {p.name.split(' (')[0]}
                         </span>
-                        <span className="py-0.2 rounded bg-neutral-100 px-1.5 font-mono text-[9px] text-neutral-500 dark:bg-black/40">
+                        <span className="py-0.2 rounded-full bg-neutral-100 px-2 font-mono text-[9px] text-neutral-500 dark:bg-white/10 dark:text-neutral-300">
                           {p.realLifeDomain.split(' ')[0]}
                         </span>
                       </div>
-                      <div className="mt-1 text-xs font-black text-neutral-900 dark:text-neutral-100">
+                      <div className="mt-2.5 text-xs font-black text-neutral-900 dark:text-neutral-100">
                         {p.realLifeTitle}
                       </div>
-                      <div className="mt-0.5 truncate text-[11px] text-neutral-500 dark:text-neutral-400">
+                      <div className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-400">
                         {p.serviceName}
                       </div>
-                    </button>
-                  );
-                })}
-              </div>
+                    </div>
+                    <div className="text-2xs mt-3.5 flex items-center justify-between border-t border-neutral-200/50 pt-2.5 font-bold dark:border-neutral-800">
+                      <span className={isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-neutral-400'}>
+                        {isSelected ? '✓ 현재 선택됨' : '선택하기'}
+                      </span>
+                      <ArrowRight className="h-3 w-3 opacity-60" />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
 
-              {/* 직접 코드 입력 모드 버튼 */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsCustomMode(!isCustomMode);
-                  if (!isCustomMode) {
-                    setMainViewMode('code-tests');
-                  }
-                  setValidationError(null);
-                }}
-                className={`text-2xs w-full rounded-xl border py-2 text-center font-bold transition-all ${
-                  isCustomMode
-                    ? 'border-blue-500 bg-blue-50 font-black text-blue-800 dark:bg-blue-950/70 dark:text-blue-200'
-                    : 'border-dashed border-neutral-300 text-neutral-600 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-white'
-                }`}
-              >
-                {isCustomMode ? '프리셋 모드로 복귀' : '+ 직접 알고리즘 코드 입력하기'}
-              </button>
+          {/* ========================================================== */}
+          {/* Step 2: 4대 협업 토폴로지 선택 & 직관 비교 (풀 와이드 1열)   */}
+          {/* ========================================================== */}
+          <section
+            id="step-2"
+            className="glass-panel scroll-mt-24 space-y-6 rounded-3xl border border-white/70 bg-white/70 p-6 shadow-md sm:p-7 dark:border-white/10 dark:bg-black/40"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-4 dark:border-neutral-800">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600 dark:bg-indigo-950/80 dark:text-indigo-400">
+                  <Share2 className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black text-neutral-900 uppercase sm:text-base lg:text-lg dark:text-neutral-100">
+                    Step 2 · 4대 협업 토폴로지 선택 & 직관 비교
+                  </h3>
+                  <p className="text-xs text-neutral-500 sm:text-sm dark:text-neutral-400">
+                    상단 인포그래픽과 4대 토폴로지 카드를 비교하고 원하는 구조를 선택한 뒤 실행합니다.
+                  </p>
+                </div>
+              </div>
+              <span className="rounded-full border border-blue-200 bg-blue-50/80 px-3 py-1 text-xs font-bold text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/50 dark:text-blue-300">
+                ★ 중앙 조율형(Star) 추천
+              </span>
             </div>
 
-            {/* Step 2: 에이전트 협업 토폴로지 선택기 */}
-            <div
-              id="step-2"
-              className="glass-panel scroll-mt-24 space-y-3 rounded-2xl border border-white/70 bg-white/70 p-4 shadow-sm dark:border-white/10 dark:bg-black/40"
-            >
-              <div className="flex items-center justify-between border-b border-neutral-200/60 pb-2.5 dark:border-neutral-800">
-                <div className="flex items-center gap-2">
-                  <Share2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  <span className="text-xs font-black text-neutral-900 uppercase dark:text-neutral-100">
-                    Step 2 · 협업 토폴로지 선택
-                  </span>
-                </div>
-                <span className="font-mono text-[10px] text-neutral-400">4 Architecture Types</span>
-              </div>
+            {/* 직관 비교 인포그래픽 이미지 및 4대 카드 (모달 없이 상단 배치된 개선 컴포넌트) */}
+            <TopologyComparisonView
+              selectedTopology={selectedTopology}
+              onSelectTopology={(topo) => setSelectedTopology(topo)}
+            />
 
-              {/* 4대 토폴로지 라디오 목록 */}
-              <div className="space-y-2">
-                {/* 1. 순차형 */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedTopology('linear')}
-                  className={`w-full rounded-xl p-2.5 text-left transition-all duration-200 ${
-                    selectedTopology === 'linear'
-                      ? 'border-2 border-red-400 bg-red-50/80 font-bold text-red-950 shadow-xs dark:border-red-800 dark:bg-red-950/60 dark:text-red-200'
-                      : 'border border-white/60 bg-white/50 hover:bg-white/80 dark:border-white/5 dark:bg-white/5'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold">1. 순차형 (Linear)</span>
-                    <span className="font-mono text-[10px] font-bold text-red-600">33.3% FAIL</span>
-                  </div>
-                  <div className="mt-0.5 text-[10px] text-neutral-500">
-                    🏭 공장 컨베이어 벨트 (얕은 검토로 결함 누적)
-                  </div>
-                </button>
-
-                {/* 2. 중앙 조율형 */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedTopology('star')}
-                  className={`relative w-full rounded-xl p-2.5 text-left transition-all duration-200 ${
-                    selectedTopology === 'star'
-                      ? 'glass-glow-blue border-2 border-blue-500 bg-gradient-to-r from-blue-50/90 to-indigo-50/70 font-bold text-blue-950 shadow-md dark:border-blue-400 dark:from-blue-950/70 dark:to-indigo-950/50 dark:text-blue-100'
-                      : 'border border-white/60 bg-white/50 hover:bg-white/80 dark:border-white/5 dark:bg-white/5'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-black">2. 중앙 조율형 (Star) ⭐</span>
-                    <span className="font-mono text-[10px] font-extrabold text-emerald-600">100% PASS</span>
-                  </div>
-                  <div className="mt-0.5 text-[10px] font-semibold text-blue-700 dark:text-blue-300">
-                    🏥 수술실 집도의 & 전담 의사 (1회 자가 교정)
-                  </div>
-                </button>
-
-                {/* 3. 토론형 */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedTopology('mesh')}
-                  className={`w-full rounded-xl p-2.5 text-left transition-all duration-200 ${
-                    selectedTopology === 'mesh'
-                      ? 'border-2 border-amber-400 bg-amber-50/80 font-bold text-amber-950 shadow-xs dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-200'
-                      : 'border border-white/60 bg-white/50 hover:bg-white/80 dark:border-white/5 dark:bg-white/5'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold">3. 토론형 (Full Mesh)</span>
-                    <span className="font-mono text-[10px] font-bold text-amber-600">878B 낭비</span>
-                  </div>
-                  <div className="mt-0.5 text-[10px] text-neutral-500">
-                    🗣️ 사공 많은 원탁 끝장 토론 (지연 3.4배 폭증)
-                  </div>
-                </button>
-
-                {/* 4. 계층형 */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedTopology('tree')}
-                  className={`w-full rounded-xl p-2.5 text-left transition-all duration-200 ${
-                    selectedTopology === 'tree'
-                      ? 'border-2 border-purple-400 bg-purple-50/80 font-bold text-purple-950 shadow-xs dark:border-purple-800 dark:bg-purple-950/60 dark:text-purple-200'
-                      : 'border border-white/60 bg-white/50 hover:bg-white/80 dark:border-white/5 dark:bg-white/5'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold">4. 계층형 (Tree)</span>
-                    <span className="font-mono text-[10px] font-bold text-purple-600">100% PASS</span>
-                  </div>
-                  <div className="mt-0.5 text-[10px] text-neutral-500">🏢 대기업 직급별 결재 라인 (에스컬레이션)</div>
-                </button>
-              </div>
-
-              {/* 자가 치유 실행 버튼 */}
+            {/* 자가 치유 실행 메인 액션 버튼 (크기 및 폰트 확대) */}
+            <div className="pt-2">
               <button
                 type="button"
                 onClick={handleRunApp}
                 disabled={isRunning}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-blue-400/50 bg-gradient-to-r from-blue-600 to-indigo-600 py-3 text-xs font-black text-white shadow-md shadow-blue-500/25 transition-all hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-blue-400/50 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 py-4 text-sm font-black text-white shadow-xl shadow-blue-500/25 transition-all hover:scale-[1.005] hover:shadow-2xl disabled:opacity-50 sm:text-base"
               >
-                {isRunning ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4 fill-white" />}
-                <span>{isRunning ? '자가 치유 피드백 연산 중...' : '자가 치유 & 검증 실행'}</span>
+                {isRunning ? <RefreshCw className="h-5 w-5 animate-spin" /> : <Play className="h-5 w-5 fill-white" />}
+                <span>
+                  {isRunning
+                    ? '자가 치유 피드백 연산 중...'
+                    : '선택한 토폴로지로 자가 치유 & 단위 테스트 전수 검증 가동'}
+                </span>
               </button>
             </div>
-          </aside>
+          </section>
 
           {/* ========================================================== */}
-          {/* 우측 메인 워크스페이스: Studio Live Canvas (lg:col-span-8) */}
+          {/* Step 3: 실시간 시뮬레이션 및 검증 결과 / 패치 Diff (풀 와이드) */}
           {/* ========================================================== */}
-          <main aria-label="스튜디오 라이브 워크스페이스" className="space-y-5 lg:col-span-8">
+          <main id="step-3" aria-label="스튜디오 라이브 워크스페이스" className="scroll-mt-24 space-y-6">
+            {/* Step 3 상단 헤더 & 뷰 모드 전환 탭 */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-200/60 pb-3.5 dark:border-neutral-800">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-950/80 dark:text-emerald-400">
+                  <Activity className="h-4 w-4" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-black text-neutral-900 uppercase sm:text-sm dark:text-neutral-100">
+                    Step 3 · 실시간 시뮬레이션 및 검증 결과 Diff
+                  </h3>
+                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    실생활 인스펙터, 에이전트 패킷 네트워크, 코드 Diff 캔버스를 전환하며 확인합니다.
+                  </p>
+                </div>
+              </div>
+
+              {/* 3대 뷰 모드 세그먼트 탭 */}
+              <div className="flex items-center gap-1 rounded-2xl border border-neutral-200/80 bg-white/80 p-1 shadow-2xs backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-900/80">
+                <button
+                  type="button"
+                  onClick={() => setMainViewMode('real-world')}
+                  className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all ${
+                    mainViewMode === 'real-world'
+                      ? 'bg-blue-600 text-white shadow-xs'
+                      : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                  }`}
+                >
+                  <Building2 className="h-3.5 w-3.5" />
+                  <span>🎯 실생활 인스펙터</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMainViewMode('network-graph')}
+                  className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all ${
+                    mainViewMode === 'network-graph'
+                      ? 'bg-blue-600 text-white shadow-xs'
+                      : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                  }`}
+                >
+                  <Activity className="h-3.5 w-3.5" />
+                  <span>⚡ 에이전트 네트워크</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMainViewMode('code-tests')}
+                  className={`text-2xs flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-black transition-all ${
+                    mainViewMode === 'code-tests'
+                      ? 'bg-blue-600 text-white shadow-xs'
+                      : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                  }`}
+                >
+                  <Code2 className="h-3.5 w-3.5" />
+                  <span>💻 코드 & Diff</span>
+                </button>
+              </div>
+            </div>
+
             {/* 1. 상단 탭에 따른 인터랙티브 캔버스 */}
             {mainViewMode === 'real-world' && !isCustomMode && (
               <RealWorldSimulator
@@ -1069,13 +1082,6 @@ export const ResearchPaperApp: React.FC = () => {
 
             {mainViewMode === 'network-graph' && (
               <TopologyNetworkGraph topology={selectedTopology} isRunning={isRunning} status={executionResult.status} />
-            )}
-
-            {mainViewMode === 'compare-matrix' && (
-              <TopologyComparisonView
-                selectedTopology={selectedTopology}
-                onSelectTopology={(topo) => setSelectedTopology(topo)}
-              />
             )}
 
             {mainViewMode === 'code-tests' && (

@@ -1,7 +1,7 @@
 // src/components/TopologyComparisonView.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { TOPOLOGIES_DETAIL, type TopologyDetail } from '../data/realLifeData';
-import { Clock, Zap, Sparkles, ArrowRight, Check } from 'lucide-react';
+import { Sparkles, Check, ArrowRight, ImageIcon, Clock, Zap, TrendingUp } from 'lucide-react';
 
 interface TopologyComparisonViewProps {
   selectedTopology: 'linear' | 'star' | 'mesh' | 'tree';
@@ -12,6 +12,8 @@ export const TopologyComparisonView: React.FC<TopologyComparisonViewProps> = ({
   selectedTopology,
   onSelectTopology,
 }) => {
+  const [activeImageType, setActiveImageType] = useState<'empirical' | 'ai'>('empirical');
+
   const topologies: TopologyDetail[] = [
     TOPOLOGIES_DETAIL.linear,
     TOPOLOGIES_DETAIL.star,
@@ -19,183 +21,193 @@ export const TopologyComparisonView: React.FC<TopologyComparisonViewProps> = ({
     TOPOLOGIES_DETAIL.tree,
   ];
 
+  const currentImageSrc =
+    activeImageType === 'empirical'
+      ? '/assets/four_topologies_comparison.png'
+      : '/assets/four_topologies_ai_diagram.jpg';
+
+  const currentImageAlt =
+    activeImageType === 'empirical'
+      ? '4대 멀티에이전트 협업 토폴로지 실측 벤치마크 및 아키텍처 비교 인포그래픽'
+      : '퓨처리스틱 멀티에이전트 협업 토폴로지 AI 블루프린트';
+
   return (
-    <section aria-labelledby="comparison-heading" className="space-y-4">
-      {/* 비교 헤더 */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/60 pb-3 dark:border-white/10">
-        <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-wide text-blue-600 uppercase dark:text-blue-400">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>4대 협업 토폴로지 한눈에 직관 비교 (Topology Comparison Matrix)</span>
+    <section aria-labelledby="comparison-heading" className="space-y-7">
+      {/* 1. 상단 직관 비교 이미지 영역 (크기 대폭 확대 및 가독성 극대화) */}
+      <div className="overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-900 shadow-xl dark:border-neutral-800">
+        {/* 상단 툴바: 제목 & 간결한 뷰 전환 */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 bg-neutral-950 px-5 py-4">
+          <div className="flex items-center gap-3">
+            <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-600/30 text-blue-400">
+              <Sparkles className="h-4 w-4" />
+            </span>
+            <div>
+              <h2 id="comparison-heading" className="text-sm font-black text-white sm:text-base lg:text-lg">
+                4대 협업 토폴로지 한눈에 직관 비교
+              </h2>
+              <p className="text-xs text-neutral-400 sm:text-sm">
+                순차형(Linear) · 중앙 조율형(Star) · 전결합형(Mesh) · 계층형(Tree)
+              </p>
+            </div>
           </div>
-          <h2
-            id="comparison-heading"
-            className="mt-0.5 text-sm font-black text-neutral-900 sm:text-base dark:text-neutral-50"
-          >
-            어떤 구조가 왜 성공하고 왜 실패하는가? 실생활 비유 및 실측 벤치마크
-          </h2>
+
+          {/* 뷰 모드 토글 (버튼 크기 및 폰트 확대) */}
+          <div className="flex items-center rounded-xl border border-neutral-800 bg-neutral-900 p-1 text-xs font-bold sm:text-sm">
+            <button
+              type="button"
+              onClick={() => setActiveImageType('empirical')}
+              className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 transition-colors ${
+                activeImageType === 'empirical'
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              <ImageIcon className="h-4 w-4" />
+              <span>실측 인포그래픽</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveImageType('ai')}
+              className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 transition-colors ${
+                activeImageType === 'ai' ? 'bg-blue-600 text-white shadow-xs' : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              <Sparkles className="h-4 w-4 text-cyan-400" />
+              <span>AI 블루프린트</span>
+            </button>
+          </div>
         </div>
-        <span className="text-2xs rounded-full border border-neutral-200 bg-white/80 px-2.5 py-1 font-mono font-bold text-neutral-600 shadow-2xs dark:border-neutral-800 dark:bg-black/60 dark:text-neutral-400">
-          N=50 실측 벤치마크 (R=3)
-        </span>
+
+        {/* 상단 다이어그램 이미지 (높이와 폭을 대폭 확대하여 텍스트/화살표 가독성 극대화) */}
+        <div className="relative flex items-center justify-center bg-black/70 p-3 sm:p-5 lg:p-7">
+          <img
+            src={currentImageSrc}
+            alt={currentImageAlt}
+            className="max-h-[580px] w-full rounded-2xl object-contain shadow-2xl transition-opacity duration-300 sm:max-h-[660px] lg:max-h-[720px]"
+            loading="eager"
+          />
+        </div>
+
+        {/* 이미지 하단 핵심 요약 스트립 (가독성 폰트 확대) */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800 bg-neutral-950 px-5 py-3 text-xs font-semibold text-neutral-300 sm:text-sm">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <span className="flex items-center gap-1.5 text-red-400">
+              <span className="h-2 w-2 rounded-full bg-red-500 ring-2 ring-red-500/30" />
+              <span>순차형: 결함 누적 (33.3% FAIL)</span>
+            </span>
+            <span className="flex items-center gap-1.5 font-bold text-emerald-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/30" />
+              <span>중앙 조율형: 1회 자가치유 100% 통과 (최적 솔루션)</span>
+            </span>
+            <span className="flex items-center gap-1.5 text-amber-400">
+              <span className="h-2 w-2 rounded-full bg-amber-500 ring-2 ring-amber-500/30" />
+              <span>전결합형: 끝장토론 통신비 3.8배 폭증</span>
+            </span>
+          </div>
+          <span className="font-mono text-xs font-bold text-neutral-400">N=50 실측 벤치마크 (R=3)</span>
+        </div>
       </div>
 
-      {/* 4대 토폴로지 카드 그리드 */}
-      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 2. 4대 토폴로지 선택 카드 그리드 (카드 크기, 여백, 폰트 대폭 확대) */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {topologies.map((t) => {
           const isSelected = selectedTopology === t.id;
           const isStar = t.id === 'star';
 
           return (
-            <div
+            <button
+              type="button"
               key={t.id}
               onClick={() => onSelectTopology(t.id)}
-              className={`glass-panel group relative flex cursor-pointer flex-col justify-between rounded-3xl p-4 transition-all duration-300 sm:p-5 ${
+              className={`group flex flex-col justify-between rounded-3xl border p-5 text-left transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-600 sm:p-6 ${
                 isSelected
                   ? isStar
-                    ? 'glass-glow-blue border-2 border-blue-500 bg-gradient-to-b from-blue-50/90 to-indigo-50/70 shadow-xl dark:border-blue-400 dark:from-blue-950/70 dark:to-indigo-950/60'
-                    : 'border-2 border-neutral-900 bg-neutral-50/90 shadow-lg dark:border-white/80 dark:bg-neutral-900/90'
-                  : 'hover:-translate-y-1 hover:border-neutral-300 hover:shadow-md dark:hover:border-neutral-700'
+                    ? 'border-2 border-blue-500 bg-blue-50/90 shadow-xl ring-2 ring-blue-500/25 dark:border-blue-400 dark:bg-blue-950/70 dark:ring-blue-400/30'
+                    : 'border-2 border-neutral-900 bg-neutral-100 shadow-xl ring-2 ring-neutral-900/25 dark:border-white dark:bg-neutral-900 dark:ring-white/30'
+                  : 'border-neutral-200/90 bg-white/80 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-neutral-50 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-950/60 dark:hover:border-neutral-700'
               }`}
             >
               <div>
-                {/* 상단 뱃지 & 아이디 */}
-                <div className="flex items-center justify-between border-b border-white/60 pb-2.5 dark:border-white/10">
-                  <span
-                    className={`rounded-full border px-2.5 py-0.5 text-[10px] font-black shadow-2xs ${t.badgeColor}`}
-                  >
+                {/* 상단 뱃지 & 통과율 (확대) */}
+                <div className="flex items-center justify-between border-b border-neutral-200/70 pb-3 dark:border-neutral-800">
+                  <span className={`rounded-full border px-3 py-1 text-xs font-black shadow-xs ${t.badgeColor}`}>
                     {t.badge}
                   </span>
-                  <span className="font-mono text-[10px] font-bold tracking-wider text-neutral-400 uppercase">
-                    {t.id}
+                  <span
+                    className={`font-mono text-sm font-black tracking-tight sm:text-base ${
+                      t.passRate >= 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
+                    }`}
+                  >
+                    {t.passRate.toFixed(1)}% 통과
                   </span>
                 </div>
 
-                {/* 제목 및 실생활 타이틀 */}
-                <div className="mt-3.5 space-y-1">
-                  <div className="text-2xs font-bold tracking-wider text-neutral-500 uppercase dark:text-neutral-400">
+                {/* 타이틀 및 실생활 비유 (확대) */}
+                <div className="mt-4">
+                  <div className="text-xs font-black tracking-wider text-neutral-500 uppercase sm:text-sm dark:text-neutral-400">
                     {t.koreanName}
                   </div>
-                  <div className="text-sm font-black text-neutral-900 sm:text-base dark:text-neutral-50">
+                  <h3 className="mt-1 text-base font-black text-neutral-900 sm:text-lg dark:text-neutral-50">
                     {t.realLifeTitle}
-                  </div>
-                  <div className="text-2xs font-semibold text-blue-600 dark:text-blue-400">
-                    실생활: &ldquo;{t.realLifeMetaphor}&rdquo;
+                  </h3>
+                  <div className="mt-1.5 text-xs leading-snug font-bold text-blue-600 sm:text-sm dark:text-blue-400">
+                    &ldquo;{t.realLifeMetaphor}&rdquo;
                   </div>
                 </div>
 
-                {/* 실생활 설명 요약 */}
-                <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-neutral-600 dark:text-neutral-300">
-                  {t.realLifeDescription}
-                </p>
-
-                {/* 핵심 정량 지표 미니 대시보드 */}
-                <div className="mt-4 space-y-2.5 rounded-2xl border border-white/60 bg-white/50 p-3 shadow-xs dark:border-white/10 dark:bg-black/40">
-                  {/* 1. 통과율 게이지 바 */}
-                  <div>
-                    <div className="text-2xs flex items-center justify-between font-black">
-                      <span className="text-neutral-600 dark:text-neutral-400">단위 테스트 통과율</span>
-                      <span
-                        className={
-                          t.passRate >= 100
-                            ? 'text-emerald-600 dark:text-emerald-400'
-                            : 'text-red-600 dark:text-red-400'
-                        }
-                      >
-                        {t.passRate.toFixed(1)}%
-                      </span>
+                {/* 핵심 정량 지표 미니 카드 (지연시간 & 페이로드 확대) */}
+                <div className="mt-4 grid grid-cols-2 gap-2 border-t border-neutral-200/70 pt-3.5 dark:border-neutral-800">
+                  <div className="rounded-xl border border-neutral-200/60 bg-neutral-100/70 p-2.5 dark:border-neutral-800 dark:bg-white/5">
+                    <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
+                      <Clock className="h-3.5 w-3.5 shrink-0 text-blue-500" />
+                      <span>지연시간</span>
                     </div>
-                    <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-neutral-200/80 dark:bg-neutral-800">
-                      <div
-                        className={`h-full rounded-full transition-all duration-700 ${
-                          t.passRate >= 100
-                            ? 'bg-gradient-to-r from-emerald-500 to-teal-400'
-                            : 'bg-gradient-to-r from-red-500 to-rose-400'
-                        }`}
-                        style={{ width: `${t.passRate}%` }}
-                      />
+                    <div className="mt-1 font-mono text-sm font-black text-neutral-900 sm:text-base dark:text-neutral-100">
+                      {t.latencyMs} ms
                     </div>
                   </div>
 
-                  {/* 2. 지연시간 & 통신량 */}
-                  <div className="text-2xs grid grid-cols-2 gap-2 pt-1">
-                    <div className="rounded-xl border border-white/60 bg-white/70 p-2 text-center shadow-2xs dark:border-white/5 dark:bg-white/5">
-                      <div className="flex items-center justify-center gap-1 font-medium text-neutral-500 dark:text-neutral-400">
-                        <Clock className="h-3 w-3 text-blue-500" />
-                        <span>지연시간</span>
-                      </div>
-                      <div className="mt-1 font-mono text-xs font-black text-neutral-900 dark:text-neutral-100">
-                        {t.latencyMs} ms
-                      </div>
-                      <div className="mt-0.5 text-[9px] text-neutral-400">
-                        {isStar ? '-70.62% 단축' : t.id === 'mesh' ? '3.4배 지체' : 'CPU 지연'}
-                      </div>
+                  <div className="rounded-xl border border-neutral-200/60 bg-neutral-100/70 p-2.5 dark:border-neutral-800 dark:bg-white/5">
+                    <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
+                      <Zap className="h-3.5 w-3.5 shrink-0 text-amber-500" />
+                      <span>페이로드</span>
                     </div>
-
-                    <div className="rounded-xl border border-white/60 bg-white/70 p-2 text-center shadow-2xs dark:border-white/5 dark:bg-white/5">
-                      <div className="flex items-center justify-center gap-1 font-medium text-neutral-500 dark:text-neutral-400">
-                        <Zap className="h-3 w-3 text-amber-500" />
-                        <span>페이로드</span>
-                      </div>
-                      <div className="mt-1 font-mono text-xs font-black text-neutral-900 dark:text-neutral-100">
-                        {t.payloadBytes} B
-                      </div>
-                      <div className="mt-0.5 text-[9px] text-neutral-400">
-                        {isStar ? '-74.02% 절감' : t.id === 'mesh' ? '3.8배 폭증' : '전송 패킷'}
-                      </div>
+                    <div className="mt-1 font-mono text-sm font-black text-neutral-900 sm:text-base dark:text-neutral-100">
+                      {t.payloadBytes} B
                     </div>
-                  </div>
-
-                  {/* 실생활 비용 평가 */}
-                  <div className="flex items-center gap-1 pt-1 text-[10px] text-neutral-600 dark:text-neutral-400">
-                    <span className="font-bold">비용 평가:</span>
-                    <span className="font-medium">{t.costEstimate}</span>
                   </div>
                 </div>
               </div>
 
-              {/* 하단 선택 버튼 */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onSelectTopology(t.id);
-                }}
-                className={`mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-black transition-all ${
+              {/* 하단 선택 상태 인디케이터 (버튼 크기 및 폰트 확대) */}
+              <div
+                className={`mt-4 flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-black transition-colors sm:text-sm ${
                   isSelected
                     ? isStar
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                      : 'bg-neutral-900 text-white shadow-md dark:bg-white dark:text-neutral-900'
-                    : 'glass-pill text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100'
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'bg-neutral-900 text-white shadow-sm dark:bg-white dark:text-neutral-900'
+                    : 'bg-neutral-100 text-neutral-600 group-hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300'
                 }`}
               >
-                {isSelected ? <Check className="h-3.5 w-3.5" /> : null}
-                <span>{isSelected ? '현재 활성화된 토폴로지' : '이 토폴로지로 실행'}</span>
-                {!isSelected && <ArrowRight className="h-3 w-3" />}
-              </button>
-            </div>
+                <div className="flex items-center gap-2">
+                  {isSelected ? <Check className="h-4 w-4" /> : null}
+                  <span>{isSelected ? '현재 선택됨' : '이 토폴로지 선택'}</span>
+                </div>
+                {!isSelected && <ArrowRight className="h-3.5 w-3.5 opacity-60" />}
+              </div>
+            </button>
           );
         })}
       </div>
 
-      {/* 직관 비교 총평 안내 배너 */}
-      <div className="glass-panel relative overflow-hidden rounded-2xl border border-blue-200/80 bg-gradient-to-r from-blue-50/80 via-indigo-50/50 to-white/80 p-4 sm:p-5 dark:border-blue-900/60 dark:from-blue-950/40 dark:via-indigo-950/30 dark:to-black/40">
-        <div className="flex items-start gap-3.5">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25">
-            <Sparkles className="h-5 w-5" />
-          </div>
-          <div>
-            <h3 className="text-xs font-black text-blue-950 sm:text-sm dark:text-blue-100">
-              논문 실증 핵심 결론: 왜 중앙 조율형(Star)이 실생활 최고의 구조인가?
-            </h3>
-            <p className="mt-1 text-xs leading-relaxed text-blue-900/80 dark:text-blue-200/80">
-              <strong>순차형</strong>은 피드백이 없어 엣지 결함을 놓치고(통과율 33.3%), <strong>토론형</strong>은 100%
-              통과하나 끝장 토론으로 지연시간과 통신비가 4배 폭증합니다. 반면 <strong>중앙 조율형(Star)</strong>은 전담
-              검증자의 실패 리포트를 중앙 Hub가 주입받아 <strong>단 1회의 자가 교정 피드백</strong>만으로 지연시간
-              -70.62%, 통신량 -74.02%를 절감하면서도 단위 테스트를 100% 전수 통과합니다.
-            </p>
-          </div>
-        </div>
+      {/* 3. 1문장 핵심 결론 배너 (폰트 및 패딩 확대) */}
+      <div className="flex items-center gap-3.5 rounded-2xl border border-blue-200/80 bg-blue-50/80 p-4 sm:p-5 dark:border-blue-900/50 dark:bg-blue-950/40">
+        <TrendingUp className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
+        <p className="text-xs leading-relaxed text-blue-950 sm:text-sm dark:text-blue-100">
+          <strong>논문 실증 결론:</strong> 중앙 조율형(Star)은 전담 검증자의 피드백을 수신하여{' '}
+          <strong>단 1회의 자가 교정</strong>만으로 지연시간 <strong>-70.62%</strong>, 통신량 <strong>-74.02%</strong>를
+          절감하면서도 100% 전수 통과를 달성하는 최적의 파레토 해입니다.
+        </p>
       </div>
     </section>
   );
