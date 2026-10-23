@@ -517,7 +517,7 @@ export const ResearchPaperApp: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <a
-                href="downloads/skt-aleph-jinyeong-research-paper.docx"
+                href="/downloads/skt-aleph-jinyeong-research-paper.docx"
                 download="skt-aleph-jinyeong-research-paper.docx"
                 className="inline-flex items-center gap-1 rounded-xl bg-neutral-900 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-neutral-800 dark:bg-white dark:text-neutral-900"
               >
@@ -525,7 +525,7 @@ export const ResearchPaperApp: React.FC = () => {
                 <span>DOCX 논문</span>
               </a>
               <a
-                href="downloads/research-reproduction-package.zip"
+                href="/downloads/research-reproduction-package.zip"
                 download="research-reproduction-package.zip"
                 className="inline-flex items-center gap-1 rounded-xl border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-800 shadow-xs hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
               >

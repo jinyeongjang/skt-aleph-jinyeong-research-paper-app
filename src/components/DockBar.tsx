@@ -130,7 +130,7 @@ export const DockBar: React.FC<DockBarProps> = ({ onRunSimulation, onTriggerInva
 
         {/* Action: DOCX 다운로드 */}
         <a
-          href="downloads/skt-aleph-jinyeong-research-paper.docx"
+          href="/downloads/skt-aleph-jinyeong-research-paper.docx"
           download="skt-aleph-jinyeong-research-paper.docx"
           title="학술 논문 DOCX 파일 다운로드"
           className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent text-neutral-600 transition-all duration-200 hover:-translate-y-1 hover:border-white/60 hover:bg-white/60 hover:text-neutral-900 hover:shadow-xs focus-visible:ring-2 focus-visible:ring-neutral-900 dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/10 dark:hover:text-neutral-100"
@@ -143,7 +143,7 @@ export const DockBar: React.FC<DockBarProps> = ({ onRunSimulation, onTriggerInva
 
         {/* Action: ZIP 다운로드 */}
         <a
-          href="downloads/research-reproduction-package.zip"
+          href="/downloads/research-reproduction-package.zip"
           download="research-reproduction-package.zip"
           title="단일 ZIP 재현 패키지 다운로드"
           className="group relative hidden h-10 w-10 items-center justify-center rounded-xl border border-transparent text-neutral-600 transition-all duration-200 hover:-translate-y-1 hover:border-white/60 hover:bg-white/60 hover:text-neutral-900 hover:shadow-xs focus-visible:ring-2 focus-visible:ring-neutral-900 sm:flex dark:text-neutral-300 dark:hover:border-white/10 dark:hover:bg-white/10 dark:hover:text-neutral-100"
