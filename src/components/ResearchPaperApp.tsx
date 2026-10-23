@@ -515,7 +515,15 @@ export const ResearchPaperApp: React.FC = () => {
               <span className="font-mono text-xs text-neutral-500 dark:text-neutral-400">Open Access · CC BY 4.0</span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href="/downloads/skt-aleph-jinyeong-presentation.pptx"
+                download="skt-aleph-jinyeong-presentation.pptx"
+                className="inline-flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700"
+              >
+                <Download className="h-3.5 w-3.5" />
+                <span>발표 PPT</span>
+              </a>
               <a
                 href="/downloads/skt-aleph-jinyeong-research-paper.docx"
                 download="skt-aleph-jinyeong-research-paper.docx"
